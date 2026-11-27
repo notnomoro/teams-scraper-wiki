@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Architecture · Teams Scraper</title>
+  <link rel="icon" href="../media/logo.svg">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-copy="Copy" data-copied="Copied">
+  <a class="skip" href="#doc">On this page</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <img src="../media/logo.svg" alt="Teams Scraper">
+        <small>Guide 1.0.0</small>
+      </a>
+      <div class="search">
+        <input id="q" type="search" placeholder="Search" autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <nav>
+        <div class="nav-group">Start</div><a href="index.html">Home</a><a href="install.html">Install</a><a href="init.html">First run</a><div class="nav-group">Commands</div><a href="commands.html">Reference</a><a href="upcoming.html">upcoming</a><a href="past-due.html">past-due</a><a href="completed.html">completed</a><a href="activity.html">activity</a><a href="channels.html">channels</a><a href="chats.html">chats</a><a href="downloads.html">downloads</a><a href="sync.html">sync</a><a href="open.html">open</a><a href="all.html">all</a><a href="options.html">Options</a><a href="config.html">config</a><a href="revert.html">revert</a><div class="nav-group">Library</div><a href="library.html">API</a><a href="store.html">Store</a><a href="data.html">Data</a><div class="nav-group">Problems</div><a href="errors.html">Errors</a><a href="problems.html">When it fails</a><a href="faq.html">FAQ</a><div class="nav-group">Project</div><a class="active" aria-current="page" href="architecture.html">Architecture</a><a href="privacy.html">Privacy</a><a href="changelog.html">Changelog</a><a href="contributing.html">Contributing</a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <div class="crumbs"><button class="menu" id="nav-toggle" type="button">Menu</button> <b>Project</b> / Architecture</div>
+        <div class="langs"><span class="on">English</span><a href="../architecture.html">Español</a></div>
+      </header>
+      <div class="content-grid">
+        <div>
+          <article id="doc">
+            <h1>Architecture</h1>
+<p class="lede">The command parses flags, <code>run</code> opens Teams, and a store object receives the rows.</p>
+<figure class="shot graphic">
+  <img src="../media/flow.svg" alt="How a run goes">
+  <figcaption>Three steps. Only the middle one opens Teams.</figcaption>
+</figure>
+<pre><code>teams-scraper
+    cli.py            flags, init, config, revert
+    runner.py         one mode, then the summary
+    browser.py        Chromium or Firefox, profile in the data folder
+    lists.py          Upcoming, Past due, Completed
+    detail.py         one assignment card
+    channels.py       posts, shared files, grades
+    chats.py          allowed chats only
+    activity.py       the Activity list
+    storage/          Almacen, SqliteAlmacen, MemoryAlmacen
+    locales/          en.json, es.json
+    errors.py         TeamsScraperError.code</code></pre>
+<div class="flow">
+  <span>init</span><span class="arr">→</span>
+  <span>config.json</span><span class="arr">→</span>
+  <span>CLI</span><span class="arr">→</span>
+  <span>Chromium or Firefox</span><span class="arr">→</span>
+  <span>Teams, read only</span>
+</div>
+<div class="flow">
+  <span>CLI</span><span class="arr">→</span>
+  <span>Almacen</span>
+  <span>Another program</span><span class="arr">→</span>
+  <span>TeamsScraperError.code</span>
+  <span>Another program</span><span class="arr">→</span>
+  <span>Almacen</span>
+</div>
+<h2>Two engines</h2>
+<p>Chrome, Edge, Brave, and Opera are Chromium plus the path to the executable. Firefox, LibreWolf, and Zen are Firefox plus that path. A new browser is another path, not a third engine. <code>init</code> lists the ones it finds and accepts a pasted path.</p>
+<p>The profile is <code>perfil</code> inside the data folder, unless a bundled LibreWolf already has <code>librewolf/Profiles/Default</code>.</p>
+<h2>The store</h2>
+<p><code>runner</code> calls <code>start_run</code>, the save methods, <code>list_tasks</code>, and <code>finish_run</code> on the object you passed. The method list is in <a href="store.html">Store</a>.</p>
+<h2>Language and errors</h2>
+<p>Strings live in <code>locales/en.json</code> and <code>locales/es.json</code>. A new language is another file in that folder. <code>TeamsScraperError.code</code> stays in English. The sentence follows <code>--lang</code> or <code>language</code> in the config. A caller that imports the package gets the exception, with the original cause attached.</p>
+<h2>Where Teams is awkward</h2>
+<ul>
+  <li>Assignments are drawn inside an iframe. That read enters the frame before it looks for cards.</li>
+  <li>Teams sometimes replaces <code>ñ</code> with a replacement character. If the broken form matches a teacher saved in the config, the saved name is used.</li>
+  <li>A later read that comes back empty, or shorter than what is already stored, leaves the stored value in place.</li>
+</ul>
+            <div class="pager"><a href="faq.html"><small>Previous</small>FAQ</a><a href="privacy.html"><small>Next</small>Privacy</a></div>
+            <footer class="site">Public package <a href="https://github.com/notnomoro/teams-scraper">teams-scraper</a> · MIT · <a href="https://github.com/notnomoro/teams-scraper/issues">Issues</a> · <a href="https://github.com/notnomoro/teams-scraper/releases">Releases</a></footer>
+          </article>
+        </div>
+        <aside class="toc">
+          <p>On this page</p>
+          <div id="toc-links"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script src="../js/search-en.js"></script>
+  <script src="../js/site.js"></script>
+</body>
+</html>

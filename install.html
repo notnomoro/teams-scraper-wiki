@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Instalación · Teams Scraper</title>
+  <link rel="icon" href="media/logo.svg">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body data-copy="Copiar" data-copied="Copiado">
+  <a class="skip" href="#doc">En esta página</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <img src="media/logo.svg" alt="Teams Scraper">
+        <small>Guía 1.0.0</small>
+      </a>
+      <div class="search">
+        <input id="q" type="search" placeholder="Buscar" autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <nav>
+        <div class="nav-group">Empezar</div><a href="index.html">Inicio</a><a class="active" aria-current="page" href="install.html">Instalación</a><a href="init.html">Primer uso</a><div class="nav-group">Comandos</div><a href="commands.html">Referencia</a><a href="upcoming.html">upcoming</a><a href="past-due.html">past-due</a><a href="completed.html">completed</a><a href="activity.html">activity</a><a href="channels.html">channels</a><a href="chats.html">chats</a><a href="downloads.html">downloads</a><a href="sync.html">sync</a><a href="open.html">open</a><a href="all.html">all</a><a href="options.html">Opciones</a><a href="config.html">config</a><a href="revert.html">revert</a><div class="nav-group">Librería</div><a href="library.html">API</a><a href="store.html">Almacén</a><a href="data.html">Datos</a><div class="nav-group">Problemas</div><a href="errors.html">Errores</a><a href="problems.html">Cuando falla</a><a href="faq.html">Preguntas</a><div class="nav-group">Proyecto</div><a href="architecture.html">Arquitectura</a><a href="privacy.html">Privacidad</a><a href="changelog.html">Cambios</a><a href="contributing.html">Contribuir</a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <div class="crumbs"><button class="menu" id="nav-toggle" type="button">Menú</button> <b>Empezar</b> / Instalación</div>
+        <div class="langs"><span class="on">Español</span><a href="en/install.html">English</a></div>
+      </header>
+      <div class="content-grid">
+        <div>
+          <article id="doc">
+            <h1>Instalación</h1>
+<p class="lede">Python 3.11 o más nuevo, y un navegador con el que Teams pueda abrirse. Selenium 4 trae el driver.</p>
+<pre><code>pip install teams-scraper
+teams-scraper init</code></pre>
+<p><code>init</code> pregunta el idioma, el navegador y la carpeta de datos. Abre Teams, dejas marcadas las clases con <code>[x]</code> y <code>[ ]</code>, y luego pide el docente y un atajo. Puedes correrlo otra vez y cambiar solo una parte. El recorrido está en <a href="init.html">Primer uso</a>.</p>
+<h2>Desde el repositorio</h2>
+<pre><code>git clone https://github.com/notnomoro/teams-scraper.git
+cd teams-scraper
+pip install -e .</code></pre>
+<h2>El navegador</h2>
+<p>Chrome, Edge, Brave y Opera son Chromium. Firefox, LibreWolf y Zen son Firefox. Si el tuyo está en otra carpeta, pega la ruta.</p>
+<figure class="shot graphic">
+  <img src="media/browsers-es.svg" alt="Los siete navegadores">
+  <figcaption>Los que init sabe buscar. Una ruta pegada también vale.</figcaption>
+</figure>
+<p>El perfil se queda en la carpeta de datos. No es el perfil con el que navegas cada día, así que un navegador que ya usas puede seguir sin sesión aquí.</p>
+<p>Si ese perfil no está logueado en Teams, la corrida abre la ventana y te pide que inicies sesión. Pulsa Enter en la terminal cuando Teams esté listo. Desde código, ese caso lanza <code>auth.login_required</code> y no se queda esperando.</p>
+<aside class="callout warn">
+  <p class="callout-label">Extensiones</p>
+  <p>Desactiva las extensiones y las protecciones de seguridad en cada navegador que elijas. Entran en conflicto con Teams. Eso incluye bloqueadores de anuncios, escudos de privacidad y la protección contra rastreo. Hazlo en el navegador que abre el scraper y recarga Teams.</p>
+</aside>
+<h2>Carpeta de datos</h2>
+<p>La carpeta por defecto es <code>datos/</code> en el directorio actual. <code>teams-scraper init</code> puede dejarla en otro sitio. Una corrida puede usar <code>--data DIR</code> sin cambiar la config guardada.</p>
+<p>Ahí están <code>config.json</code>, el perfil del navegador, <code>teams.db</code>, las copias JSON y <code>descargas/</code>. No la subas al repositorio. Mira <a href="privacy.html">Privacidad</a>.</p>
+<h2>Comprobar</h2>
+<pre><code>teams-scraper --help
+teams-scraper --version</code></pre>
+<p><code>--help</code> lista los comandos. Una lectura sin config se detiene con <code>config.missing</code> y te dice que corras <code>init</code>.</p>
+<figure class="shot">
+  <img src="media/help.png" alt="teams-scraper --help">
+  <figcaption>La ayuda de la 1.0.0. También sale si no pasas ningún comando.</figcaption>
+</figure>
+<h2>Actualizar</h2>
+<pre><code>pip install --upgrade teams-scraper</code></pre>
+<p>Desde un clon, haz pull y vuelve a correr <code>pip install -e .</code>. La carpeta de datos se queda donde la dejaste.</p>
+            <div class="pager"><a href="index.html"><small>Anterior</small>Inicio</a><a href="init.html"><small>Siguiente</small>Primer uso</a></div>
+            <footer class="site">Paquete público <a href="https://github.com/notnomoro/teams-scraper">teams-scraper</a> · MIT · <a href="https://github.com/notnomoro/teams-scraper/issues">Problemas</a> · <a href="https://github.com/notnomoro/teams-scraper/releases">Descargas</a></footer>
+          </article>
+        </div>
+        <aside class="toc">
+          <p>En esta página</p>
+          <div id="toc-links"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script src="js/search-es.js"></script>
+  <script src="js/site.js"></script>
+</body>
+</html>

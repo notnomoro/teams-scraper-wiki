@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>sync · Teams Scraper</title>
+  <link rel="icon" href="media/logo.svg">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body data-copy="Copiar" data-copied="Copiado">
+  <a class="skip" href="#doc">En esta página</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <img src="media/logo.svg" alt="Teams Scraper">
+        <small>Guía 1.0.0</small>
+      </a>
+      <div class="search">
+        <input id="q" type="search" placeholder="Buscar" autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <nav>
+        <div class="nav-group">Empezar</div><a href="index.html">Inicio</a><a href="install.html">Instalación</a><a href="init.html">Primer uso</a><div class="nav-group">Comandos</div><a href="commands.html">Referencia</a><a href="upcoming.html">upcoming</a><a href="past-due.html">past-due</a><a href="completed.html">completed</a><a href="activity.html">activity</a><a href="channels.html">channels</a><a href="chats.html">chats</a><a href="downloads.html">downloads</a><a class="active" aria-current="page" href="sync.html">sync</a><a href="open.html">open</a><a href="all.html">all</a><a href="options.html">Opciones</a><a href="config.html">config</a><a href="revert.html">revert</a><div class="nav-group">Librería</div><a href="library.html">API</a><a href="store.html">Almacén</a><a href="data.html">Datos</a><div class="nav-group">Problemas</div><a href="errors.html">Errores</a><a href="problems.html">Cuando falla</a><a href="faq.html">Preguntas</a><div class="nav-group">Proyecto</div><a href="architecture.html">Arquitectura</a><a href="privacy.html">Privacidad</a><a href="changelog.html">Cambios</a><a href="contributing.html">Contribuir</a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <div class="crumbs"><button class="menu" id="nav-toggle" type="button">Menú</button> <b>Comandos</b> / sync</div>
+        <div class="langs"><span class="on">Español</span><a href="en/sync.html">English</a></div>
+      </header>
+      <div class="content-grid">
+        <div>
+          <article id="doc">
+            <h1>sync</h1>
+<p class="lede">No abre el navegador. El alias es <code>sincronizar-bd</code>.</p>
+<pre><code>teams-scraper sync</code></pre>
+<figure class="shot">
+  <img src="media/sync-es.png" alt="Resumen de sync">
+  <figcaption>Una corrida vacía, a propósito. El estado es COMPLETA porque no había nada pendiente.</figcaption>
+</figure>
+<p>Toda corrida, esta incluida, llama antes a <code>sync_catalog()</code>. Si en la carpeta de datos hay <code>catalogo/</code>, esas piezas se copian a la base.</p>
+<p>Después, si el almacén tiene avisos, reescribe <code>activity.json</code> desde ahí. Imprime los conteos y cierra en <code>COMPLETA</code>. No rehace <code>upcoming.json</code>, <code>past_due.json</code> ni <code>completed.json</code>. Esas copias las escribe la lectura completa de cada lista.</p>
+            <div class="pager"><a href="downloads.html"><small>Anterior</small>downloads</a><a href="open.html"><small>Siguiente</small>open</a></div>
+            <footer class="site">Paquete público <a href="https://github.com/notnomoro/teams-scraper">teams-scraper</a> · MIT · <a href="https://github.com/notnomoro/teams-scraper/issues">Problemas</a> · <a href="https://github.com/notnomoro/teams-scraper/releases">Descargas</a></footer>
+          </article>
+        </div>
+        <aside class="toc">
+          <p>En esta página</p>
+          <div id="toc-links"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script src="js/search-es.js"></script>
+  <script src="js/site.js"></script>
+</body>
+</html>

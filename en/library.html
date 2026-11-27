@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python API · Teams Scraper</title>
+  <link rel="icon" href="../media/logo.svg">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-copy="Copy" data-copied="Copied">
+  <a class="skip" href="#doc">On this page</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <img src="../media/logo.svg" alt="Teams Scraper">
+        <small>Guide 1.0.0</small>
+      </a>
+      <div class="search">
+        <input id="q" type="search" placeholder="Search" autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <nav>
+        <div class="nav-group">Start</div><a href="index.html">Home</a><a href="install.html">Install</a><a href="init.html">First run</a><div class="nav-group">Commands</div><a href="commands.html">Reference</a><a href="upcoming.html">upcoming</a><a href="past-due.html">past-due</a><a href="completed.html">completed</a><a href="activity.html">activity</a><a href="channels.html">channels</a><a href="chats.html">chats</a><a href="downloads.html">downloads</a><a href="sync.html">sync</a><a href="open.html">open</a><a href="all.html">all</a><a href="options.html">Options</a><a href="config.html">config</a><a href="revert.html">revert</a><div class="nav-group">Library</div><a class="active" aria-current="page" href="library.html">API</a><a href="store.html">Store</a><a href="data.html">Data</a><div class="nav-group">Problems</div><a href="errors.html">Errors</a><a href="problems.html">When it fails</a><a href="faq.html">FAQ</a><div class="nav-group">Project</div><a href="architecture.html">Architecture</a><a href="privacy.html">Privacy</a><a href="changelog.html">Changelog</a><a href="contributing.html">Contributing</a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <div class="crumbs"><button class="menu" id="nav-toggle" type="button">Menu</button> <b>Library</b> / API</div>
+        <div class="langs"><span class="on">English</span><a href="../library.html">Español</a></div>
+      </header>
+      <div class="content-grid">
+        <div>
+          <article id="doc">
+            <h1>Python API</h1>
+<p class="lede">The public package is <code>teams_scraper</code>. This guide is for 1.0.0. Python 3.11 or newer. The dependency is Selenium 4.25 or newer.</p>
+<pre><code>from teams_scraper import connect, list_tasks, run
+
+run("upcoming", limit=1)
+with connect() as store:
+    for task in store.list_tasks():
+        print(task["titulo"])</code></pre>
+<p><code>run</code> raises <code>TeamsScraperError</code>. The terminal prints the code and exits 1. Your program reads <code>error.code</code>. The original cause is attached when there is one. The codes are in <a href="errors.html">Errors</a>.</p>
+<h2>Public names</h2>
+<table>
+  <tr><th>Name</th><th>What it is</th></tr>
+  <tr><td><code>run</code></td><td>One read. If you omit the store, it opens SQLite.</td></tr>
+  <tr><td><code>connect</code></td><td>Opens <code>SqliteAlmacen</code>, or returns the store you passed.</td></tr>
+  <tr><td><code>list_tasks</code></td><td>Stored assignments. <code>tab</code> may be <code>Upcoming</code>, <code>Past due</code>, <code>Completed</code>, or <code>Grades</code>.</td></tr>
+  <tr><td><code>list_files</code></td><td>Stored files.</td></tr>
+  <tr><td><code>Almacen</code></td><td>The contract. Subclass it and pass it to <code>run(store=...)</code>.</td></tr>
+  <tr><td><code>SqliteAlmacen</code></td><td>The store that ships. It writes <code>teams.db</code>.</td></tr>
+  <tr><td><code>MemoryAlmacen</code></td><td>The same contract in memory, for a test that should not open SQLite.</td></tr>
+  <tr><td><code>TeamsScraperError</code></td><td>A failure with a stable <code>code</code> and a message in the active language.</td></tr>
+</table>
+<h2>run</h2>
+<pre><code>run(
+    mode="upcoming",
+    *,
+    store=None,
+    browser=None,
+    subjects=None,
+    parts=None,
+    limit=0,
+    no_detail=False,
+    keep_open=False,
+    chat="",
+    download=None,
+    interactive=False,
+    language=None,
+)</code></pre>
+<table>
+  <tr><th>Argument</th><th>What it does</th></tr>
+  <tr><td><code>mode</code></td><td><code>upcoming</code>, <code>past-due</code>, <code>completed</code>, <code>activity</code>, <code>channels</code>, <code>chats</code>, <code>downloads</code>, <code>sync</code>, <code>open</code>, or <code>all</code>.</td></tr>
+  <tr><td><code>store</code></td><td>An <code>Almacen</code>. <code>None</code> opens SQLite and closes it at the end.</td></tr>
+  <tr><td><code>browser</code></td><td>Config id or executable path, for this call.</td></tr>
+  <tr><td><code>subjects</code></td><td>Shortcuts or names. Required for <code>channels</code> and <code>all</code> when the config has no classes.</td></tr>
+  <tr><td><code>parts</code></td><td>Channel parts. The default is <code>posts</code> and <code>shared</code>.</td></tr>
+  <tr><td><code>limit</code></td><td>How many assignments to open. <code>0</code> means all of them.</td></tr>
+  <tr><td><code>no_detail</code></td><td>Do not open each card.</td></tr>
+  <tr><td><code>keep_open</code></td><td>Do not close the window at the end.</td></tr>
+  <tr><td><code>chat</code></td><td>An allowed name, or <code>all</code>. Required for <code>chats</code>.</td></tr>
+  <tr><td><code>download</code></td><td><code>None</code> follows the config. <code>False</code> skips downloads for this call.</td></tr>
+  <tr><td><code>interactive</code></td><td><code>False</code> by default. If Teams asks for a sign-in, it raises <code>auth.login_required</code>. The terminal sets this when someone is at the keyboard, and then waits for Enter.</td></tr>
+  <tr><td><code>language</code></td><td><code>en</code> or <code>es</code> for this call.</td></tr>
+</table>
+<aside class="callout note">
+  <p class="callout-label">Data folder</p>
+  <p><code>run</code> does not take the folder. <code>connect(data_dir=...)</code> sets it, or call <code>teams_scraper.paths.set_data_dir</code> first. <code>TEAMS_SCRAPER_HOME</code> does the same. Otherwise the folder is <code>datos/</code> in the current directory.</p>
+</aside>
+<pre><code>run("upcoming", limit=1, store=my_store)</code></pre>
+<p>The contract for <code>my_store</code> is in <a href="store.html">Store</a>. The SQLite tables are in <a href="data.html">Data</a>.</p>
+            <div class="pager"><a href="revert.html"><small>Previous</small>revert</a><a href="store.html"><small>Next</small>Store</a></div>
+            <footer class="site">Public package <a href="https://github.com/notnomoro/teams-scraper">teams-scraper</a> · MIT · <a href="https://github.com/notnomoro/teams-scraper/issues">Issues</a> · <a href="https://github.com/notnomoro/teams-scraper/releases">Releases</a></footer>
+          </article>
+        </div>
+        <aside class="toc">
+          <p>On this page</p>
+          <div id="toc-links"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script src="../js/search-en.js"></script>
+  <script src="../js/site.js"></script>
+</body>
+</html>

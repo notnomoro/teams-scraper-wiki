@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Command reference · Teams Scraper</title>
+  <link rel="icon" href="../media/logo.svg">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-copy="Copy" data-copied="Copied">
+  <a class="skip" href="#doc">On this page</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <img src="../media/logo.svg" alt="Teams Scraper">
+        <small>Guide 1.0.0</small>
+      </a>
+      <div class="search">
+        <input id="q" type="search" placeholder="Search" autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <nav>
+        <div class="nav-group">Start</div><a href="index.html">Home</a><a href="install.html">Install</a><a href="init.html">First run</a><div class="nav-group">Commands</div><a class="active" aria-current="page" href="commands.html">Reference</a><a href="upcoming.html">upcoming</a><a href="past-due.html">past-due</a><a href="completed.html">completed</a><a href="activity.html">activity</a><a href="channels.html">channels</a><a href="chats.html">chats</a><a href="downloads.html">downloads</a><a href="sync.html">sync</a><a href="open.html">open</a><a href="all.html">all</a><a href="options.html">Options</a><a href="config.html">config</a><a href="revert.html">revert</a><div class="nav-group">Library</div><a href="library.html">API</a><a href="store.html">Store</a><a href="data.html">Data</a><div class="nav-group">Problems</div><a href="errors.html">Errors</a><a href="problems.html">When it fails</a><a href="faq.html">FAQ</a><div class="nav-group">Project</div><a href="architecture.html">Architecture</a><a href="privacy.html">Privacy</a><a href="changelog.html">Changelog</a><a href="contributing.html">Contributing</a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <div class="crumbs"><button class="menu" id="nav-toggle" type="button">Menu</button> <b>Commands</b> / Reference</div>
+        <div class="langs"><span class="on">English</span><a href="../commands.html">Español</a></div>
+      </header>
+      <div class="content-grid">
+        <div>
+          <article id="doc">
+            <h1>Command reference</h1>
+<p class="lede">Each command reads one thing. <code>all</code> joins several. Chats are not part of <code>all</code>.</p>
+<table>
+  <tr><th>Command</th><th>What it reads</th><th>Browser</th></tr>
+  <tr><td><a href="upcoming.html"><code>upcoming</code></a></td><td>Assignments that are not due yet.</td><td>Yes</td></tr>
+  <tr><td><a href="past-due.html"><code>past-due</code></a></td><td>Assignments past the due date.</td><td>Yes</td></tr>
+  <tr><td><a href="completed.html"><code>completed</code></a></td><td>Assignments already turned in.</td><td>Yes</td></tr>
+  <tr><td><a href="activity.html"><code>activity</code></a></td><td>Notifications since the last read.</td><td>Yes</td></tr>
+  <tr><td><a href="channels.html"><code>channels</code></a></td><td>Posts, shared files, channels, and grades.</td><td>Yes</td></tr>
+  <tr><td><a href="chats.html"><code>chats</code></a></td><td>Messages in the chats you allowed.</td><td>Yes</td></tr>
+  <tr><td><a href="downloads.html"><code>downloads</code></a></td><td>Where files already saved came from.</td><td>No</td></tr>
+  <tr><td><a href="sync.html"><code>sync</code></a></td><td>Copies the catalog into the database and rewrites <code>activity.json</code> when there are notices.</td><td>No</td></tr>
+  <tr><td><a href="open.html"><code>open</code></a></td><td>Opens Teams and waits. Nothing is read.</td><td>Yes</td></tr>
+  <tr><td><a href="all.html"><code>all</code></a></td><td>Activity, upcoming, past due, completed, and channels.</td><td>Yes</td></tr>
+  <tr><td><a href="init.html"><code>init</code></a></td><td>Language, browser, classes, chats, folder, and downloads.</td><td>Yes, to check classes</td></tr>
+  <tr><td><a href="config.html"><code>config</code></a></td><td>Change one saved field.</td><td>No</td></tr>
+  <tr><td><a href="revert.html"><code>revert</code></a></td><td>Put back the previous config.</td><td>No</td></tr>
+</table>
+<h2>Other names</h2>
+<table>
+  <tr><th>You type</th><th>It is</th></tr>
+  <tr><td><code>todo</code></td><td><code>all</code></td></tr>
+  <tr><td><code>canales</code></td><td><code>channels</code></td></tr>
+  <tr><td><code>abrir</code></td><td><code>open</code></td></tr>
+  <tr><td><code>descargas</code></td><td><code>downloads</code></td></tr>
+  <tr><td><code>sincronizar-bd</code></td><td><code>sync</code></td></tr>
+  <tr><td><code>pastdue</code></td><td><code>past-due</code></td></tr>
+  <tr><td><code>inicio</code>, <code>iniciar</code></td><td><code>init</code></td></tr>
+  <tr><td><code>ayuda</code></td><td><code>help</code></td></tr>
+  <tr><td><code>configurar</code>, <code>editar</code></td><td><code>config</code></td></tr>
+  <tr><td><code>revertir</code>, <code>deshacer</code></td><td><code>revert</code></td></tr>
+</table>
+<h2>Examples</h2>
+<pre><code>teams-scraper upcoming
+teams-scraper channels -s hist -p posts,grades
+teams-scraper chats --chat all
+teams-scraper upcoming --lang es --limit 1
+teams-scraper config
+teams-scraper revert</code></pre>
+<p><code>channels</code> without a class stops with <code>subjects.missing</code>. <code>chats</code> without <code>--chat</code> stops with <code>chats.missing</code>. Flags are in <a href="options.html">Options</a>.</p>
+<h2>What a run prints</h2>
+<p>The header names the mode, the browser, and the clock. Each step is marked. The end is a summary: state, mode, items, and duration.</p>
+<table>
+  <tr><th>English</th><th>With --lang es</th><th>Meaning</th></tr>
+  <tr><td><code>STEP</code></td><td><code>PASO</code></td><td>A step in progress.</td></tr>
+  <tr><td><code>OK</code></td><td><code>OK</code></td><td>That step finished.</td></tr>
+  <tr><td><code>INFO</code></td><td><code>INFO</code></td><td>A note, such as a saved card that was skipped.</td></tr>
+  <tr><td><code>NOTE</code></td><td><code>AVISO</code></td><td>Something that limits the run.</td></tr>
+  <tr><td><code>COMPLETE</code></td><td><code>COMPLETA</code></td><td>The steps finished.</td></tr>
+  <tr><td><code>PARTIAL</code></td><td><code>PARCIAL</code></td><td>A step was skipped or limited.</td></tr>
+  <tr><td><code>FAILED</code></td><td><code>FALLIDA</code></td><td>The run stopped. The note is <code>code: sentence</code>.</td></tr>
+</table>
+<p><code>--limit</code> reads that many assignments and leaves the previous JSON copy in place. A card that is already complete is skipped, with the exceptions of each list. A partial read does not replace a stored value with an empty one.</p>
+<figure class="shot">
+  <img src="../media/summary.png" alt="Summary of teams-scraper downloads">
+  <figcaption>downloads does not open the browser. The summary is still state, mode, and duration.</figcaption>
+</figure>
+<p>A bad flag or an unknown command exits with status 2 and suggests a close match. A failed read exits with status 1 and prints <code>code: sentence</code>.</p>
+<figure class="shot">
+  <img src="../media/unknown.png" alt="Unknown command upcomng">
+  <figcaption>upcomng is not a command. The suggestion next to it is.</figcaption>
+</figure>
+            <div class="pager"><a href="init.html"><small>Previous</small>First run</a><a href="upcoming.html"><small>Next</small>upcoming</a></div>
+            <footer class="site">Public package <a href="https://github.com/notnomoro/teams-scraper">teams-scraper</a> · MIT · <a href="https://github.com/notnomoro/teams-scraper/issues">Issues</a> · <a href="https://github.com/notnomoro/teams-scraper/releases">Releases</a></footer>
+          </article>
+        </div>
+        <aside class="toc">
+          <p>On this page</p>
+          <div id="toc-links"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script src="../js/search-en.js"></script>
+  <script src="../js/site.js"></script>
+</body>
+</html>

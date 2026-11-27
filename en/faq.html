@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAQ · Teams Scraper</title>
+  <link rel="icon" href="../media/logo.svg">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-copy="Copy" data-copied="Copied">
+  <a class="skip" href="#doc">On this page</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <img src="../media/logo.svg" alt="Teams Scraper">
+        <small>Guide 1.0.0</small>
+      </a>
+      <div class="search">
+        <input id="q" type="search" placeholder="Search" autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <nav>
+        <div class="nav-group">Start</div><a href="index.html">Home</a><a href="install.html">Install</a><a href="init.html">First run</a><div class="nav-group">Commands</div><a href="commands.html">Reference</a><a href="upcoming.html">upcoming</a><a href="past-due.html">past-due</a><a href="completed.html">completed</a><a href="activity.html">activity</a><a href="channels.html">channels</a><a href="chats.html">chats</a><a href="downloads.html">downloads</a><a href="sync.html">sync</a><a href="open.html">open</a><a href="all.html">all</a><a href="options.html">Options</a><a href="config.html">config</a><a href="revert.html">revert</a><div class="nav-group">Library</div><a href="library.html">API</a><a href="store.html">Store</a><a href="data.html">Data</a><div class="nav-group">Problems</div><a href="errors.html">Errors</a><a href="problems.html">When it fails</a><a class="active" aria-current="page" href="faq.html">FAQ</a><div class="nav-group">Project</div><a href="architecture.html">Architecture</a><a href="privacy.html">Privacy</a><a href="changelog.html">Changelog</a><a href="contributing.html">Contributing</a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <div class="crumbs"><button class="menu" id="nav-toggle" type="button">Menu</button> <b>Problems</b> / FAQ</div>
+        <div class="langs"><span class="on">English</span><a href="../faq.html">Español</a></div>
+      </header>
+      <div class="content-grid">
+        <div>
+          <article id="doc">
+            <h1>FAQ</h1>
+<h2>Does it submit the assignment for me?</h2>
+<p>No. It reads what the account can already see. There is no command to submit, post, or delete.</p>
+<h2>Does it use my everyday Chrome profile?</h2>
+<p>No. The profile is <code>perfil</code> inside the data folder, unless a bundled LibreWolf already keeps its own there. You can stay signed out in your normal profile.</p>
+<h2>Does it send anything to a project server?</h2>
+<p>No. There is no account, no analytics, and no server. It opens <code>https://teams.cloud.microsoft</code> with Selenium and writes on your disk.</p>
+<h2>Why is the error still English if I asked for Spanish?</h2>
+<p>The code is the stable part, so a program can compare it. The sentence is what changes. See <a href="errors.html">Errors</a>.</p>
+<h2>Can I keep the rows somewhere else?</h2>
+<p>Yes. Subclass <code>Almacen</code> and pass it to <code>run(store=...)</code>. <code>MemoryAlmacen</code> is the same contract without SQLite. The method you cannot skip is <code>save_task</code>.</p>
+<h2>Does all include chats?</h2>
+<p>No. <code>all</code> is activity, three assignment lists, and channels. Chats are <code>teams-scraper chats --chat all</code>, and only the ones on the allowed list.</p>
+<h2>Does a partial read wipe what was stored?</h2>
+<p>No. <code>--limit</code> and <code>--no-detail</code> do not replace the list JSON. A field that comes back empty, or shorter, leaves the stored value in place.</p>
+<h2>Where do I see the version?</h2>
+<pre><code>teams-scraper --version</code></pre>
+<p>This guide matches 1.0.0.</p>
+            <div class="pager"><a href="problems.html"><small>Previous</small>When it fails</a><a href="architecture.html"><small>Next</small>Architecture</a></div>
+            <footer class="site">Public package <a href="https://github.com/notnomoro/teams-scraper">teams-scraper</a> · MIT · <a href="https://github.com/notnomoro/teams-scraper/issues">Issues</a> · <a href="https://github.com/notnomoro/teams-scraper/releases">Releases</a></footer>
+          </article>
+        </div>
+        <aside class="toc">
+          <p>On this page</p>
+          <div id="toc-links"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script src="../js/search-en.js"></script>
+  <script src="../js/site.js"></script>
+</body>
+</html>

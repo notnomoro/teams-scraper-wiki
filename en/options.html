@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Options · Teams Scraper</title>
+  <link rel="icon" href="../media/logo.svg">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-copy="Copy" data-copied="Copied">
+  <a class="skip" href="#doc">On this page</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <img src="../media/logo.svg" alt="Teams Scraper">
+        <small>Guide 1.0.0</small>
+      </a>
+      <div class="search">
+        <input id="q" type="search" placeholder="Search" autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <nav>
+        <div class="nav-group">Start</div><a href="index.html">Home</a><a href="install.html">Install</a><a href="init.html">First run</a><div class="nav-group">Commands</div><a href="commands.html">Reference</a><a href="upcoming.html">upcoming</a><a href="past-due.html">past-due</a><a href="completed.html">completed</a><a href="activity.html">activity</a><a href="channels.html">channels</a><a href="chats.html">chats</a><a href="downloads.html">downloads</a><a href="sync.html">sync</a><a href="open.html">open</a><a href="all.html">all</a><a class="active" aria-current="page" href="options.html">Options</a><a href="config.html">config</a><a href="revert.html">revert</a><div class="nav-group">Library</div><a href="library.html">API</a><a href="store.html">Store</a><a href="data.html">Data</a><div class="nav-group">Problems</div><a href="errors.html">Errors</a><a href="problems.html">When it fails</a><a href="faq.html">FAQ</a><div class="nav-group">Project</div><a href="architecture.html">Architecture</a><a href="privacy.html">Privacy</a><a href="changelog.html">Changelog</a><a href="contributing.html">Contributing</a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <div class="crumbs"><button class="menu" id="nav-toggle" type="button">Menu</button> <b>Commands</b> / Options</div>
+        <div class="langs"><span class="on">English</span><a href="../options.html">Español</a></div>
+      </header>
+      <div class="content-grid">
+        <div>
+          <article id="doc">
+            <h1>Options</h1>
+<p class="lede">The same flags apply to read commands. <code>init</code>, <code>config</code>, and <code>revert</code> ask in the terminal instead of using these flags.</p>
+<table>
+  <tr><th>Option</th><th>What it does</th></tr>
+  <tr><td><code>-s</code>, <code>--subject NAME</code></td><td>Shortcut or class name. Repeat the flag for more than one. It picks classes for <code>channels</code> and <code>all</code>.</td></tr>
+  <tr><td><code>-p</code>, <code>--part LIST</code></td><td>Channel parts, separated by commas: <code>posts</code>, <code>shared</code>, <code>assignments</code>, <code>channels</code>, <code>grades</code>.</td></tr>
+  <tr><td><code>--chat NAME</code></td><td>A name from the allowed list, or <code>all</code>.</td></tr>
+  <tr><td><code>--limit N</code></td><td>How many assignments to open. <code>0</code> means all of them.</td></tr>
+  <tr><td><code>--no-detail</code></td><td>List the cards and do not open each assignment.</td></tr>
+  <tr><td><code>--no-download</code></td><td>Do not download files on this run.</td></tr>
+  <tr><td><code>--keep-open</code></td><td>Leave the window open when the run ends. <code>open</code> leaves it open anyway.</td></tr>
+  <tr><td><code>--browser ID|PATH</code></td><td>Browser id from the config, or a path to an executable, for this run.</td></tr>
+  <tr><td><code>--lang en|es</code></td><td>Language for this run. The error code stays in English.</td></tr>
+  <tr><td><code>--data DIR</code></td><td>Folder for the config, the profile, and the database, for this run.</td></tr>
+  <tr><td><code>--mode</code></td><td>The same name as the command, if you pass it as a flag.</td></tr>
+  <tr><td><code>-h</code>, <code>--help</code></td><td>Show the help and exit 0. <code>ayuda</code> does the same.</td></tr>
+  <tr><td><code>--version</code></td><td>Print <code>teams-scraper 1.0.0</code> and exit.</td></tr>
+</table>
+<h2>Exit status</h2>
+<table>
+  <tr><th>Status</th><th>When</th></tr>
+  <tr><td>0</td><td>The run finished, even when the summary is partial.</td></tr>
+  <tr><td>1</td><td><code>TeamsScraperError</code>. The line is <code>code: sentence</code>.</td></tr>
+  <tr><td>2</td><td>A command or flag the argument parser rejected. It suggests a close match.</td></tr>
+</table>
+            <div class="pager"><a href="all.html"><small>Previous</small>all</a><a href="config.html"><small>Next</small>config</a></div>
+            <footer class="site">Public package <a href="https://github.com/notnomoro/teams-scraper">teams-scraper</a> · MIT · <a href="https://github.com/notnomoro/teams-scraper/issues">Issues</a> · <a href="https://github.com/notnomoro/teams-scraper/releases">Releases</a></footer>
+          </article>
+        </div>
+        <aside class="toc">
+          <p>On this page</p>
+          <div id="toc-links"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script src="../js/search-en.js"></script>
+  <script src="../js/site.js"></script>
+</body>
+</html>

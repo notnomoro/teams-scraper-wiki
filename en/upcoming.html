@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>upcoming · Teams Scraper</title>
+  <link rel="icon" href="../media/logo.svg">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-copy="Copy" data-copied="Copied">
+  <a class="skip" href="#doc">On this page</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <img src="../media/logo.svg" alt="Teams Scraper">
+        <small>Guide 1.0.0</small>
+      </a>
+      <div class="search">
+        <input id="q" type="search" placeholder="Search" autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <nav>
+        <div class="nav-group">Start</div><a href="index.html">Home</a><a href="install.html">Install</a><a href="init.html">First run</a><div class="nav-group">Commands</div><a href="commands.html">Reference</a><a class="active" aria-current="page" href="upcoming.html">upcoming</a><a href="past-due.html">past-due</a><a href="completed.html">completed</a><a href="activity.html">activity</a><a href="channels.html">channels</a><a href="chats.html">chats</a><a href="downloads.html">downloads</a><a href="sync.html">sync</a><a href="open.html">open</a><a href="all.html">all</a><a href="options.html">Options</a><a href="config.html">config</a><a href="revert.html">revert</a><div class="nav-group">Library</div><a href="library.html">API</a><a href="store.html">Store</a><a href="data.html">Data</a><div class="nav-group">Problems</div><a href="errors.html">Errors</a><a href="problems.html">When it fails</a><a href="faq.html">FAQ</a><div class="nav-group">Project</div><a href="architecture.html">Architecture</a><a href="privacy.html">Privacy</a><a href="changelog.html">Changelog</a><a href="contributing.html">Contributing</a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <div class="crumbs"><button class="menu" id="nav-toggle" type="button">Menu</button> <b>Commands</b> / upcoming</div>
+        <div class="langs"><span class="on">English</span><a href="../upcoming.html">Español</a></div>
+      </header>
+      <div class="content-grid">
+        <div>
+          <article id="doc">
+            <h1>upcoming</h1>
+<p class="lede">Assignments that are not due yet. It opens each card unless you limit the run.</p>
+<pre><code>teams-scraper upcoming
+teams-scraper upcoming --limit 1
+teams-scraper upcoming --no-detail</code></pre>
+<h2>What it stores</h2>
+<p>Each card goes to the store with the tab <code>Upcoming</code>. When the read opens the assignment, it also stores instructions, points, files, and metadata. A full read writes <code>upcoming.json</code>. With <code>--limit</code> or <code>--no-detail</code> that copy stays, and the summary is <code>PARTIAL</code>.</p>
+<h2>Cards already stored</h2>
+<p>A card already stored complete, with files, is skipped. A card stored complete with no files is opened again to recheck them. A card Activity asked to reread is opened again.</p>
+<p><code>-s</code> does not filter this list. The list is the one Teams shows the account. The teacher is filled in when the class name matches the config.</p>
+<h2>If it stops</h2>
+<p><code>config.missing</code> when there is no config. <code>teams.assignments_unavailable</code> when Assignments did not open. <code>teams.card_mismatch</code> when the opened assignment does not match the card: that read is not saved. Assignments are drawn inside an iframe. The read enters the frame before it looks for cards.</p>
+            <div class="pager"><a href="commands.html"><small>Previous</small>Reference</a><a href="past-due.html"><small>Next</small>past-due</a></div>
+            <footer class="site">Public package <a href="https://github.com/notnomoro/teams-scraper">teams-scraper</a> · MIT · <a href="https://github.com/notnomoro/teams-scraper/issues">Issues</a> · <a href="https://github.com/notnomoro/teams-scraper/releases">Releases</a></footer>
+          </article>
+        </div>
+        <aside class="toc">
+          <p>On this page</p>
+          <div id="toc-links"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script src="../js/search-en.js"></script>
+  <script src="../js/site.js"></script>
+</body>
+</html>

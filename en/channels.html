@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>channels · Teams Scraper</title>
+  <link rel="icon" href="../media/logo.svg">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-copy="Copy" data-copied="Copied">
+  <a class="skip" href="#doc">On this page</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <img src="../media/logo.svg" alt="Teams Scraper">
+        <small>Guide 1.0.0</small>
+      </a>
+      <div class="search">
+        <input id="q" type="search" placeholder="Search" autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <nav>
+        <div class="nav-group">Start</div><a href="index.html">Home</a><a href="install.html">Install</a><a href="init.html">First run</a><div class="nav-group">Commands</div><a href="commands.html">Reference</a><a href="upcoming.html">upcoming</a><a href="past-due.html">past-due</a><a href="completed.html">completed</a><a href="activity.html">activity</a><a class="active" aria-current="page" href="channels.html">channels</a><a href="chats.html">chats</a><a href="downloads.html">downloads</a><a href="sync.html">sync</a><a href="open.html">open</a><a href="all.html">all</a><a href="options.html">Options</a><a href="config.html">config</a><a href="revert.html">revert</a><div class="nav-group">Library</div><a href="library.html">API</a><a href="store.html">Store</a><a href="data.html">Data</a><div class="nav-group">Problems</div><a href="errors.html">Errors</a><a href="problems.html">When it fails</a><a href="faq.html">FAQ</a><div class="nav-group">Project</div><a href="architecture.html">Architecture</a><a href="privacy.html">Privacy</a><a href="changelog.html">Changelog</a><a href="contributing.html">Contributing</a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <div class="crumbs"><button class="menu" id="nav-toggle" type="button">Menu</button> <b>Commands</b> / channels</div>
+        <div class="langs"><span class="on">English</span><a href="../channels.html">Español</a></div>
+      </header>
+      <div class="content-grid">
+        <div>
+          <article id="doc">
+            <h1>channels</h1>
+<p class="lede">Posts, shared files, channel names, and grades for the classes you checked. The alias is <code>canales</code>.</p>
+<pre><code>teams-scraper channels -s hist
+teams-scraper channels -s hist -p posts,grades</code></pre>
+<p>Without at least one class in the config, the code is <code>subjects.missing</code>. <code>subjects[].name</code> has to match Teams. If it is not in the list, the code is <code>teams.class_missing</code>.</p>
+<figure class="shot">
+  <img src="../media/subjects.png" alt="subjects.missing">
+  <figcaption>channels with no class checked. The sentence is in English. The code is still subjects.missing.</figcaption>
+</figure>
+<h2>Parts</h2>
+<p>If you omit <code>-p</code>, it reads <code>posts</code> and <code>shared</code>. You can ask for several, separated by commas.</p>
+<table>
+  <tr><th>Part</th><th>What it stores</th></tr>
+  <tr><td><code>posts</code></td><td>Channel posts.</td></tr>
+  <tr><td><code>shared</code></td><td>Shared folders and files. Files go to <code>descargas/</code> when downloads are on.</td></tr>
+  <tr><td><code>channels</code></td><td>Channel names, including hidden ones the screen can show.</td></tr>
+  <tr><td><code>assignments</code></td><td>Assignments seen from the class.</td></tr>
+  <tr><td><code>grades</code></td><td>The grade text, in <code>calificacion_texto</code>.</td></tr>
+</table>
+<p>Part aliases: <code>asignaciones</code> and <code>assigments</code> are <code>assignments</code>. <code>calificaciones</code> is <code>grades</code>. <code>canales</code> is <code>channels</code>. An unknown part is <code>config.invalid</code>.</p>
+<p>Repeat <code>-s</code> for more than one class. The shortcut or the name has to be in the config.</p>
+            <div class="pager"><a href="activity.html"><small>Previous</small>activity</a><a href="chats.html"><small>Next</small>chats</a></div>
+            <footer class="site">Public package <a href="https://github.com/notnomoro/teams-scraper">teams-scraper</a> · MIT · <a href="https://github.com/notnomoro/teams-scraper/issues">Issues</a> · <a href="https://github.com/notnomoro/teams-scraper/releases">Releases</a></footer>
+          </article>
+        </div>
+        <aside class="toc">
+          <p>On this page</p>
+          <div id="toc-links"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script src="../js/search-en.js"></script>
+  <script src="../js/site.js"></script>
+</body>
+</html>

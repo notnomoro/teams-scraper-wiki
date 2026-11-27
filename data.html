@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Datos · Teams Scraper</title>
+  <link rel="icon" href="media/logo.svg">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body data-copy="Copiar" data-copied="Copiado">
+  <a class="skip" href="#doc">En esta página</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <img src="media/logo.svg" alt="Teams Scraper">
+        <small>Guía 1.0.0</small>
+      </a>
+      <div class="search">
+        <input id="q" type="search" placeholder="Buscar" autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <nav>
+        <div class="nav-group">Empezar</div><a href="index.html">Inicio</a><a href="install.html">Instalación</a><a href="init.html">Primer uso</a><div class="nav-group">Comandos</div><a href="commands.html">Referencia</a><a href="upcoming.html">upcoming</a><a href="past-due.html">past-due</a><a href="completed.html">completed</a><a href="activity.html">activity</a><a href="channels.html">channels</a><a href="chats.html">chats</a><a href="downloads.html">downloads</a><a href="sync.html">sync</a><a href="open.html">open</a><a href="all.html">all</a><a href="options.html">Opciones</a><a href="config.html">config</a><a href="revert.html">revert</a><div class="nav-group">Librería</div><a href="library.html">API</a><a href="store.html">Almacén</a><a class="active" aria-current="page" href="data.html">Datos</a><div class="nav-group">Problemas</div><a href="errors.html">Errores</a><a href="problems.html">Cuando falla</a><a href="faq.html">Preguntas</a><div class="nav-group">Proyecto</div><a href="architecture.html">Arquitectura</a><a href="privacy.html">Privacidad</a><a href="changelog.html">Cambios</a><a href="contributing.html">Contribuir</a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <div class="crumbs"><button class="menu" id="nav-toggle" type="button">Menú</button> <b>Librería</b> / Datos</div>
+        <div class="langs"><span class="on">Español</span><a href="en/data.html">English</a></div>
+      </header>
+      <div class="content-grid">
+        <div>
+          <article id="doc">
+            <h1>Datos</h1>
+<p class="lede"><code>SqliteAlmacen.list_tasks()</code> devuelve filas de <code>tareas</code>. Los nombres son los de las columnas. <code>list_files()</code> lee <code>archivos</code>.</p>
+<p>Un error de SQLite es <code>storage.failed</code>. La frase incluye el mensaje de la base. La causa se queda en la excepción. Un id que no puede ser nombre de carpeta es <code>storage.bad_id</code> y el catálogo de esa pieza no se escribe.</p>
+<h2>Qué devuelve list_tasks</h2>
+<p><code>id_origen</code>, <code>titulo</code>, <code>materia</code>, <code>docente</code>, <code>pestana_vista</code>, <code>fecha_entrega_texto</code>, <code>estado_lista</code>, <code>instrucciones</code>, <code>detalle_completo</code>, <code>requiere_relectura</code>. La fila también puede traer el resto de columnas de la tabla.</p>
+<h2>Tablas de teams.db</h2>
+<table>
+  <tr><th>Tabla</th><th>Qué guarda</th></tr>
+  <tr><td><code>ejecuciones</code></td><td>Cada corrida: <code>modo</code>, <code>resultado</code> (<code>en_curso</code>, luego <code>completa</code>, <code>parcial</code> o <code>fallida</code>), <code>tareas_procesadas</code>, <code>notas</code>, inicio y fin.</td></tr>
+  <tr><td><code>tareas</code></td><td>Tareas. La clave es <code>id_origen</code>.</td></tr>
+  <tr><td><code>archivos</code>, <code>tarea_archivos</code></td><td>Archivos y a qué tarea pertenecen. <code>rol</code> sale como <code>no_confirmado</code> hasta que la lectura lo concreta.</td></tr>
+  <tr><td><code>historial_cambios</code></td><td>Un campo guardado que cambió. Una lectura vacía no añade una fila. Los campos que se comparan en una tarea son título, materia, pestaña, fecha, estados, puntos e instrucciones.</td></tr>
+  <tr><td><code>notificaciones</code></td><td>Activity.</td></tr>
+  <tr><td><code>avisos_canal</code></td><td>Avisos de canal vistos desde Activity.</td></tr>
+  <tr><td><code>archivos_canal</code>, <code>carpetas_canal</code>, <code>canales_equipo</code></td><td>Archivos compartidos, carpetas y nombres de canal.</td></tr>
+</table>
+<h3>Columnas de tareas</h3>
+<p><code>id_origen</code>, <code>titulo</code>, <code>materia</code>, <code>docente</code>, <code>pestana_vista</code>, <code>grupo_fecha</code>, <code>fecha_entrega_texto</code>, <code>etiqueta</code>, <code>puntos_posibles</code>, <code>estado_lista</code>, <code>estado_entrega</code>, <code>permite_varios_envios</code>, <code>instrucciones</code>, <code>metadatos_json</code>, <code>detalle_completo</code>, <code>requiere_relectura</code>, <code>primera_vez_vista_en</code>, <code>ultima_vez_vista_en</code>, <code>ultima_ejecucion_id</code>, <code>calificacion_texto</code>, <code>comentario</code>.</p>
+<p><code>docente</code> queda en <code>desconocido</code> cuando la config no tiene un docente para esa clase. <code>calificacion_texto</code> y <code>comentario</code> se añaden cuando hace falta. El texto de la nota entra al leer <code>grades</code>.</p>
+<h2>Archivos junto a la base</h2>
+<table>
+  <tr><th>Ruta</th><th>Qué es</th></tr>
+  <tr><td><code>config.json</code></td><td>La configuración de <code>init</code>.</td></tr>
+  <tr><td><code>config.prev.json</code></td><td>La configuración anterior. <code>revert</code> intercambia las dos.</td></tr>
+  <tr><td><code>teams.db</code></td><td>El archivo SQLite.</td></tr>
+  <tr><td><code>perfil/</code></td><td>El perfil del navegador de esta herramienta.</td></tr>
+  <tr><td><code>descargas/</code></td><td>Archivos descargados.</td></tr>
+  <tr><td><code>upcoming.json</code>, <code>past_due.json</code>, <code>completed.json</code>, <code>activity.json</code></td><td>Una copia de la última lista completa. <code>--limit</code> y <code>--no-detail</code> no sustituyen la copia de tareas.</td></tr>
+  <tr><td><code>catalogo/</code></td><td>Un JSON por tarea y por archivo, más <code>indice.json</code>. Una corrida los copia a la base cuando están presentes.</td></tr>
+</table>
+            <div class="pager"><a href="store.html"><small>Anterior</small>Almacén</a><a href="errors.html"><small>Siguiente</small>Errores</a></div>
+            <footer class="site">Paquete público <a href="https://github.com/notnomoro/teams-scraper">teams-scraper</a> · MIT · <a href="https://github.com/notnomoro/teams-scraper/issues">Problemas</a> · <a href="https://github.com/notnomoro/teams-scraper/releases">Descargas</a></footer>
+          </article>
+        </div>
+        <aside class="toc">
+          <p>En esta página</p>
+          <div id="toc-links"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script src="js/search-es.js"></script>
+  <script src="js/site.js"></script>
+</body>
+</html>

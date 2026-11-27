@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>When it fails · Teams Scraper</title>
+  <link rel="icon" href="../media/logo.svg">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-copy="Copy" data-copied="Copied">
+  <a class="skip" href="#doc">On this page</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <img src="../media/logo.svg" alt="Teams Scraper">
+        <small>Guide 1.0.0</small>
+      </a>
+      <div class="search">
+        <input id="q" type="search" placeholder="Search" autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <nav>
+        <div class="nav-group">Start</div><a href="index.html">Home</a><a href="install.html">Install</a><a href="init.html">First run</a><div class="nav-group">Commands</div><a href="commands.html">Reference</a><a href="upcoming.html">upcoming</a><a href="past-due.html">past-due</a><a href="completed.html">completed</a><a href="activity.html">activity</a><a href="channels.html">channels</a><a href="chats.html">chats</a><a href="downloads.html">downloads</a><a href="sync.html">sync</a><a href="open.html">open</a><a href="all.html">all</a><a href="options.html">Options</a><a href="config.html">config</a><a href="revert.html">revert</a><div class="nav-group">Library</div><a href="library.html">API</a><a href="store.html">Store</a><a href="data.html">Data</a><div class="nav-group">Problems</div><a href="errors.html">Errors</a><a class="active" aria-current="page" href="problems.html">When it fails</a><a href="faq.html">FAQ</a><div class="nav-group">Project</div><a href="architecture.html">Architecture</a><a href="privacy.html">Privacy</a><a href="changelog.html">Changelog</a><a href="contributing.html">Contributing</a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <div class="crumbs"><button class="menu" id="nav-toggle" type="button">Menu</button> <b>Problems</b> / When it fails</div>
+        <div class="langs"><span class="on">English</span><a href="../problems.html">Español</a></div>
+      </header>
+      <div class="content-grid">
+        <div>
+          <article id="doc">
+            <h1>When it fails</h1>
+<p class="lede">The code is enough to see what happened. Do not paste cookies, session files, or other people's names into an issue.</p>
+<h2>There is no config</h2>
+<p>The line is <code>config.missing</code>. Run <code>teams-scraper init</code>. The program does not invent a class or a browser.</p>
+<figure class="shot">
+  <img src="../media/error.png" alt="config.missing">
+  <figcaption>The stop, and the command that clears it.</figcaption>
+</figure>
+<h2>The sentence is English and you wanted Spanish</h2>
+<p>The code stays in English on purpose. <code>--lang es</code> changes the sentence for that run. <code>language</code> in the config changes it for the next ones.</p>
+<figure class="shot">
+  <img src="../media/lang-es.png" alt="The same stop in Spanish">
+  <figcaption>config.missing with the Spanish sentence.</figcaption>
+</figure>
+<h2>The browser does not start</h2>
+<ul>
+  <li><code>browser.not_found</code>: the <code>.exe</code> path is gone. <code>teams-scraper config</code> and pick another, or paste the path.</li>
+  <li><code>browser.profile_locked</code>: close the window that already uses this profile and run the same command.</li>
+  <li><code>browser.start_failed</code> or <code>browser.closed</code>: run it again. If you closed the window yourself, it is <code>browser.closed</code>.</li>
+  <li>Extensions, blockers, and privacy shields break Teams. Turn them off in the profile this tool opens, then reload.</li>
+</ul>
+<h2>It asks you to sign in</h2>
+<p>In the terminal, sign in in the window and press Enter. From Python, with <code>interactive=False</code>, you get <code>auth.login_required</code>. <code>teams-scraper open</code> leaves the window open so you can sign in.</p>
+<p>That profile starts without your everyday session. The first time asking for the account is expected.</p>
+<h2>There is no network</h2>
+<p><code>network.unreachable</code> means <code>teams.microsoft.com</code> on port 443 did not answer. The run does not continue from a half-loaded page.</p>
+<h2>The class is missing</h2>
+<p><code>teams.class_missing</code>: <code>name</code> has to be the name Teams shows. <code>subjects.missing</code>: <code>channels</code> and <code>all</code> need a class. Check it with <code>init</code>.</p>
+<p>Teams sometimes breaks <code>ñ</code>. If you saved the teacher in the config, that name is used when the broken form matches.</p>
+<h2>Assignments does not load</h2>
+<p><code>teams.timeout</code> or <code>teams.assignments_unavailable</code>: run the same command. Assignments are drawn inside an iframe. A page that did not load is not stored as an empty list. What is already in the database stays.</p>
+<p><code>teams.card_mismatch</code> does not save that card, because the opened title is not the one on the list. <code>teams.sharepoint_unavailable</code> does not save that file pass.</p>
+<h2>Chat does not open</h2>
+<p>It has to be on the <code>chats</code> list. Otherwise <code>chats.not_allowed</code>. If you forgot <code>--chat</code>, <code>chats.missing</code>. <code>all</code> does not read chats. Run <code>chats</code> on its own.</p>
+<h2>The exit status is 2</h2>
+<p>The command or the flag does not exist. Help suggests a close match. <code>teams-scraper --help</code> lists the names. Aliases are in <a href="commands.html">Reference</a>.</p>
+<h2>You want to report it</h2>
+<p>Include the browser, the mode, the version, and the <code>code</code>. Check that it still happens on the latest release. The repository templates ask for the same thing.</p>
+            <div class="pager"><a href="errors.html"><small>Previous</small>Errors</a><a href="faq.html"><small>Next</small>FAQ</a></div>
+            <footer class="site">Public package <a href="https://github.com/notnomoro/teams-scraper">teams-scraper</a> · MIT · <a href="https://github.com/notnomoro/teams-scraper/issues">Issues</a> · <a href="https://github.com/notnomoro/teams-scraper/releases">Releases</a></footer>
+          </article>
+        </div>
+        <aside class="toc">
+          <p>On this page</p>
+          <div id="toc-links"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script src="../js/search-en.js"></script>
+  <script src="../js/site.js"></script>
+</body>
+</html>

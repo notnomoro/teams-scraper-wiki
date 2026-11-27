@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data · Teams Scraper</title>
+  <link rel="icon" href="../media/logo.svg">
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body data-copy="Copy" data-copied="Copied">
+  <a class="skip" href="#doc">On this page</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <img src="../media/logo.svg" alt="Teams Scraper">
+        <small>Guide 1.0.0</small>
+      </a>
+      <div class="search">
+        <input id="q" type="search" placeholder="Search" autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <nav>
+        <div class="nav-group">Start</div><a href="index.html">Home</a><a href="install.html">Install</a><a href="init.html">First run</a><div class="nav-group">Commands</div><a href="commands.html">Reference</a><a href="upcoming.html">upcoming</a><a href="past-due.html">past-due</a><a href="completed.html">completed</a><a href="activity.html">activity</a><a href="channels.html">channels</a><a href="chats.html">chats</a><a href="downloads.html">downloads</a><a href="sync.html">sync</a><a href="open.html">open</a><a href="all.html">all</a><a href="options.html">Options</a><a href="config.html">config</a><a href="revert.html">revert</a><div class="nav-group">Library</div><a href="library.html">API</a><a href="store.html">Store</a><a class="active" aria-current="page" href="data.html">Data</a><div class="nav-group">Problems</div><a href="errors.html">Errors</a><a href="problems.html">When it fails</a><a href="faq.html">FAQ</a><div class="nav-group">Project</div><a href="architecture.html">Architecture</a><a href="privacy.html">Privacy</a><a href="changelog.html">Changelog</a><a href="contributing.html">Contributing</a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <div class="crumbs"><button class="menu" id="nav-toggle" type="button">Menu</button> <b>Library</b> / Data</div>
+        <div class="langs"><span class="on">English</span><a href="../data.html">Español</a></div>
+      </header>
+      <div class="content-grid">
+        <div>
+          <article id="doc">
+            <h1>Data</h1>
+<p class="lede"><code>SqliteAlmacen.list_tasks()</code> returns rows from <code>tareas</code>. The names are the column names. <code>list_files()</code> reads <code>archivos</code>.</p>
+<p>A SQLite error is <code>storage.failed</code>. The sentence includes the database message. The cause stays on the exception. An id that cannot be a folder name is <code>storage.bad_id</code> and that catalog piece is not written.</p>
+<h2>What list_tasks returns</h2>
+<p><code>id_origen</code>, <code>titulo</code>, <code>materia</code>, <code>docente</code>, <code>pestana_vista</code>, <code>fecha_entrega_texto</code>, <code>estado_lista</code>, <code>instrucciones</code>, <code>detalle_completo</code>, <code>requiere_relectura</code>. The row can also carry the rest of the table columns.</p>
+<h2>Tables in teams.db</h2>
+<table>
+  <tr><th>Table</th><th>What it keeps</th></tr>
+  <tr><td><code>ejecuciones</code></td><td>Each run: <code>modo</code>, <code>resultado</code> (<code>en_curso</code>, then <code>completa</code>, <code>parcial</code>, or <code>fallida</code>), <code>tareas_procesadas</code>, <code>notas</code>, start, and end.</td></tr>
+  <tr><td><code>tareas</code></td><td>Assignments. The key is <code>id_origen</code>.</td></tr>
+  <tr><td><code>archivos</code>, <code>tarea_archivos</code></td><td>Files and which assignment they belong to. <code>rol</code> stays <code>no_confirmado</code> until a read sets it.</td></tr>
+  <tr><td><code>historial_cambios</code></td><td>A stored field that changed. An empty read does not add a row. The fields compared on a task are title, class, tab, date, statuses, points, and instructions.</td></tr>
+  <tr><td><code>notificaciones</code></td><td>Activity.</td></tr>
+  <tr><td><code>avisos_canal</code></td><td>Channel notices seen from Activity.</td></tr>
+  <tr><td><code>archivos_canal</code>, <code>carpetas_canal</code>, <code>canales_equipo</code></td><td>Shared files, folders, and channel names.</td></tr>
+</table>
+<h3>Task columns</h3>
+<p><code>id_origen</code>, <code>titulo</code>, <code>materia</code>, <code>docente</code>, <code>pestana_vista</code>, <code>grupo_fecha</code>, <code>fecha_entrega_texto</code>, <code>etiqueta</code>, <code>puntos_posibles</code>, <code>estado_lista</code>, <code>estado_entrega</code>, <code>permite_varios_envios</code>, <code>instrucciones</code>, <code>metadatos_json</code>, <code>detalle_completo</code>, <code>requiere_relectura</code>, <code>primera_vez_vista_en</code>, <code>ultima_vez_vista_en</code>, <code>ultima_ejecucion_id</code>, <code>calificacion_texto</code>, <code>comentario</code>.</p>
+<p><code>docente</code> is <code>desconocido</code> when the config has no teacher for that class. <code>calificacion_texto</code> and <code>comentario</code> are added when needed. The grade text is filled when <code>grades</code> is read.</p>
+<h2>Files next to the database</h2>
+<table>
+  <tr><th>Path</th><th>What it is</th></tr>
+  <tr><td><code>config.json</code></td><td>The setup from <code>init</code>.</td></tr>
+  <tr><td><code>config.prev.json</code></td><td>The previous setup. <code>revert</code> swaps the two.</td></tr>
+  <tr><td><code>teams.db</code></td><td>The SQLite file.</td></tr>
+  <tr><td><code>perfil/</code></td><td>The browser profile for this tool.</td></tr>
+  <tr><td><code>descargas/</code></td><td>Downloaded files.</td></tr>
+  <tr><td><code>upcoming.json</code>, <code>past_due.json</code>, <code>completed.json</code>, <code>activity.json</code></td><td>A copy of the last full list. <code>--limit</code> and <code>--no-detail</code> do not replace the assignment copy.</td></tr>
+  <tr><td><code>catalogo/</code></td><td>One JSON per assignment and per file, plus <code>indice.json</code>. A run copies these into the database when they are present.</td></tr>
+</table>
+            <div class="pager"><a href="store.html"><small>Previous</small>Store</a><a href="errors.html"><small>Next</small>Errors</a></div>
+            <footer class="site">Public package <a href="https://github.com/notnomoro/teams-scraper">teams-scraper</a> · MIT · <a href="https://github.com/notnomoro/teams-scraper/issues">Issues</a> · <a href="https://github.com/notnomoro/teams-scraper/releases">Releases</a></footer>
+          </article>
+        </div>
+        <aside class="toc">
+          <p>On this page</p>
+          <div id="toc-links"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script src="../js/search-en.js"></script>
+  <script src="../js/site.js"></script>
+</body>
+</html>

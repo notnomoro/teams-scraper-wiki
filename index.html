@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inicio · Teams Scraper</title>
+  <link rel="icon" href="media/logo.svg">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body data-copy="Copiar" data-copied="Copiado">
+  <a class="skip" href="#doc">En esta página</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <img src="media/logo.svg" alt="Teams Scraper">
+        <small>Guía 1.0.0</small>
+      </a>
+      <div class="search">
+        <input id="q" type="search" placeholder="Buscar" autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <nav>
+        <div class="nav-group">Empezar</div><a class="active" aria-current="page" href="index.html">Inicio</a><a href="install.html">Instalación</a><a href="init.html">Primer uso</a><div class="nav-group">Comandos</div><a href="commands.html">Referencia</a><a href="upcoming.html">upcoming</a><a href="past-due.html">past-due</a><a href="completed.html">completed</a><a href="activity.html">activity</a><a href="channels.html">channels</a><a href="chats.html">chats</a><a href="downloads.html">downloads</a><a href="sync.html">sync</a><a href="open.html">open</a><a href="all.html">all</a><a href="options.html">Opciones</a><a href="config.html">config</a><a href="revert.html">revert</a><div class="nav-group">Librería</div><a href="library.html">API</a><a href="store.html">Almacén</a><a href="data.html">Datos</a><div class="nav-group">Problemas</div><a href="errors.html">Errores</a><a href="problems.html">Cuando falla</a><a href="faq.html">Preguntas</a><div class="nav-group">Proyecto</div><a href="architecture.html">Arquitectura</a><a href="privacy.html">Privacidad</a><a href="changelog.html">Cambios</a><a href="contributing.html">Contribuir</a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <div class="crumbs"><button class="menu" id="nav-toggle" type="button">Menú</button> <b>Empezar</b> / Inicio</div>
+        <div class="langs"><span class="on">Español</span><a href="en/index.html">English</a></div>
+      </header>
+      <div class="content-grid">
+        <div>
+          <article id="doc">
+            <h1>Teams Scraper</h1>
+<p class="lede">Lee el Teams de tus clases y lo guarda en tu máquina. Tareas, archivos, notas y publicaciones. No entrega trabajos.</p>
+<div class="cards">
+  <a class="card" href="install.html"><span class="kicker">Empezar</span><strong>Instalación</strong><span>Python 3.11, pip y un navegador.</span></a>
+  <a class="card" href="init.html"><span class="kicker">Empezar</span><strong>Primer uso</strong><span>Lo que init pregunta, en orden.</span></a>
+  <a class="card" href="commands.html"><span class="kicker">Comandos</span><strong>Cada función</strong><span>Qué lee, qué guarda y qué puede fallar.</span></a>
+  <a class="card" href="library.html"><span class="kicker">Librería</span><strong>Desde Python</strong><span>run, connect y tu propio almacén.</span></a>
+  <a class="card" href="errors.html"><span class="kicker">Problemas</span><strong>Códigos</strong><span>El código no cambia con el idioma.</span></a>
+  <a class="card" href="privacy.html"><span class="kicker">Proyecto</span><strong>Privacidad</strong><span>No sale de tu máquina.</span></a>
+</div>
+<h2>Si quieres usarlo ya</h2>
+<pre><code>pip install teams-scraper
+teams-scraper init
+teams-scraper upcoming --limit 1</code></pre>
+<p><code>init</code> pregunta el idioma, el navegador y qué clases abrir. La primera lectura pide una sola tarea, para que veas qué regresa. El recorrido está en <a href="install.html">Instalación</a> y <a href="init.html">Primer uso</a>.</p>
+<h2>Navegadores</h2>
+<figure class="shot graphic">
+  <img src="media/browsers-es.svg" alt="Chrome, Edge, Brave, Opera, Firefox, LibreWolf y Zen">
+  <figcaption>Chromium arriba. Firefox abajo. Si el tuyo está en otra carpeta, pega la ruta.</figcaption>
+</figure>
+<p>En la ventana que abre el programa, apaga los bloqueadores y los escudos. Se pelean con Teams.</p>
+<h2>Cómo va una corrida</h2>
+<figure class="shot graphic">
+  <img src="media/flow-es.svg" alt="Del comando al navegador, y de ahí a una carpeta tuya">
+  <figcaption>El comando abre Teams en solo lectura. Las filas se quedan donde tú las dejes.</figcaption>
+</figure>
+<h2>Qué hace</h2>
+<p>Sirve para el Teams de clase: las tareas, las notas, los canales y los archivos que un estudiante ya puede ver.</p>
+<ul>
+  <li>Lee Upcoming, Past due y Completed, y abre cada tarea que pidas.</li>
+  <li>Guarda la lista de clases, las publicaciones, los archivos compartidos y las notas cuando pides esas partes.</li>
+  <li>Mantiene un perfil de navegador en tu carpeta de datos. No usa el perfil de cada día.</li>
+  <li>Habla inglés salvo que pases <code>--lang es</code> o pongas <code>language</code> en la config.</li>
+  <li>Guarda las filas en SQLite. Otro proyecto puede pasar su propio almacén a <code>run(store=...)</code>.</li>
+</ul>
+<aside class="callout stop">
+  <p class="callout-label">No entrega nada</p>
+  <p>No envía una tarea, no publica un mensaje y no manda las filas a quien mantiene el proyecto. Una página que falló no cuenta como una clase vacía.</p>
+</aside>
+<h2>Si una corrida se detiene</h2>
+<p>Se detiene con un código estable, como <code>config.missing</code> o <code>browser.profile_locked</code>. La frase cambia con el idioma. El código no. La lista está en <a href="errors.html">Errores</a>. La guía por síntoma está en <a href="problems.html">Cuando falla</a>.</p>
+<h2>Así se ve</h2>
+<p>Las imágenes son el programa. La clase de los ejemplos es inventada, y una ruta de tu usuario se tapa antes de guardar la foto.</p>
+<figure class="shot">
+  <img src="media/help-es.png" alt="Ayuda en español">
+  <figcaption>teams-scraper --lang es --help. La ayuda lista comandos y opciones.</figcaption>
+</figure>
+<figure class="shot">
+  <img src="media/init.png" alt="teams-scraper init">
+  <figcaption>init. Idioma, navegador, clase y chat. History 101 es un ejemplo.</figcaption>
+</figure>
+<div class="gallery">
+  <figure class="shot">
+    <img src="media/sync-es.png" alt="Resumen de sync en español">
+    <figcaption>sync termina en COMPLETA. No abre el navegador.</figcaption>
+  </figure>
+  <figure class="shot">
+    <img src="media/summary.png" alt="Resumen de downloads">
+    <figcaption>downloads cierra en PARCIAL. No hubo una lectura nueva.</figcaption>
+  </figure>
+  <figure class="shot">
+    <img src="media/subjects-es.png" alt="Error subjects.missing en español">
+    <figcaption>channels sin una clase. El código no cambia; la frase sí.</figcaption>
+  </figure>
+  <figure class="shot">
+    <img src="media/unknown-es.png" alt="Comando desconocido">
+    <figcaption>Un nombre mal escrito. Te sugiere el comando cercano.</figcaption>
+  </figure>
+</div>
+<h2>Con qué está hecho</h2>
+<table>
+  <tr><th>Pieza</th><th>Qué usa</th></tr>
+  <tr><td>Comando</td><td><code>teams-scraper</code></td></tr>
+  <tr><td>Navegador</td><td>Selenium 4. Chromium para Chrome, Edge, Brave y Opera. Firefox para Firefox, LibreWolf y Zen.</td></tr>
+  <tr><td>Almacén</td><td>SQLite en tu carpeta de datos, o una clase que pases</td></tr>
+  <tr><td>Texto</td><td><code>locales/en.json</code> y <code>locales/es.json</code></td></tr>
+  <tr><td>Errores</td><td><code>TeamsScraperError.code</code></td></tr>
+</table>
+<p>Versión 1.0.0, del 26 de noviembre de 2026. Licencia MIT. El código está en <a href="https://github.com/notnomoro/teams-scraper">github.com/notnomoro/teams-scraper</a>.</p>
+            <div class="pager"><a href="install.html"><small>Siguiente</small>Instalación</a></div>
+            <footer class="site">Paquete público <a href="https://github.com/notnomoro/teams-scraper">teams-scraper</a> · MIT · <a href="https://github.com/notnomoro/teams-scraper/issues">Problemas</a> · <a href="https://github.com/notnomoro/teams-scraper/releases">Descargas</a></footer>
+          </article>
+        </div>
+        <aside class="toc">
+          <p>En esta página</p>
+          <div id="toc-links"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script src="js/search-es.js"></script>
+  <script src="js/site.js"></script>
+</body>
+</html>

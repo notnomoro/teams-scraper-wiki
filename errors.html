@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Errores · Teams Scraper</title>
+  <link rel="icon" href="media/logo.svg">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body data-copy="Copiar" data-copied="Copiado">
+  <a class="skip" href="#doc">En esta página</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <img src="media/logo.svg" alt="Teams Scraper">
+        <small>Guía 1.0.0</small>
+      </a>
+      <div class="search">
+        <input id="q" type="search" placeholder="Buscar" autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <nav>
+        <div class="nav-group">Empezar</div><a href="index.html">Inicio</a><a href="install.html">Instalación</a><a href="init.html">Primer uso</a><div class="nav-group">Comandos</div><a href="commands.html">Referencia</a><a href="upcoming.html">upcoming</a><a href="past-due.html">past-due</a><a href="completed.html">completed</a><a href="activity.html">activity</a><a href="channels.html">channels</a><a href="chats.html">chats</a><a href="downloads.html">downloads</a><a href="sync.html">sync</a><a href="open.html">open</a><a href="all.html">all</a><a href="options.html">Opciones</a><a href="config.html">config</a><a href="revert.html">revert</a><div class="nav-group">Librería</div><a href="library.html">API</a><a href="store.html">Almacén</a><a href="data.html">Datos</a><div class="nav-group">Problemas</div><a class="active" aria-current="page" href="errors.html">Errores</a><a href="problems.html">Cuando falla</a><a href="faq.html">Preguntas</a><div class="nav-group">Proyecto</div><a href="architecture.html">Arquitectura</a><a href="privacy.html">Privacidad</a><a href="changelog.html">Cambios</a><a href="contributing.html">Contribuir</a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <div class="crumbs"><button class="menu" id="nav-toggle" type="button">Menú</button> <b>Problemas</b> / Errores</div>
+        <div class="langs"><span class="on">Español</span><a href="en/errors.html">English</a></div>
+      </header>
+      <div class="content-grid">
+        <div>
+          <article id="doc">
+            <h1>Errores</h1>
+<p class="lede">Una corrida que no puede seguir lanza <code>TeamsScraperError</code>. El <code>code</code> es inglés estable. La frase sigue el idioma. La terminal imprime los dos y sale con 1.</p>
+<pre><code>[ERROR] config.missing: Todavía no hay configuración. Ejecuta: teams-scraper init</code></pre>
+<p>Con <code>--lang es</code> el código sigue siendo <code>config.missing</code> y cambia la frase. Desde Python, lee <code>error.code</code>. El fallo original queda como causa cuando lo hay.</p>
+<p>Un comando malo o una bandera mala sale con 2. Ese camino es el lector de argumentos, no uno de estos códigos.</p>
+<table>
+  <tr><th>Código</th><th>Cuándo pasa</th><th>Qué correr</th></tr>
+  <tr><td><code>config.missing</code></td><td>Todavía no hay config.</td><td><code>teams-scraper init</code></td></tr>
+  <tr><td><code>config.invalid</code></td><td>La config no es válida, o no tiene navegador. Un <code>--part</code> malo usa este código también.</td><td><code>teams-scraper init</code></td></tr>
+  <tr><td><code>browser.not_found</code></td><td>Falta el ejecutable, o no hay navegador configurado.</td><td><code>teams-scraper config</code></td></tr>
+  <tr><td><code>browser.profile_locked</code></td><td>Ese navegador ya tiene este perfil abierto, y el candado no se puede quitar.</td><td>Cierra esa ventana y corre el mismo comando.</td></tr>
+  <tr><td><code>browser.start_failed</code></td><td>La ventana no se pudo preparar.</td><td>Corre el mismo comando otra vez.</td></tr>
+  <tr><td><code>browser.closed</code></td><td>Se cerró la ventana del navegador.</td><td>Corre el mismo comando otra vez.</td></tr>
+  <tr><td><code>network.unreachable</code></td><td><code>teams.microsoft.com</code> en el puerto 443 no respondió.</td><td>Revisa la red.</td></tr>
+  <tr><td><code>auth.login_required</code></td><td>Teams pide inicio de sesión. Una terminal espera y te pide Enter. Desde código se lanza esto y no espera.</td><td><code>teams-scraper open</code></td></tr>
+  <tr><td><code>subjects.missing</code></td><td>Este modo necesita una clase.</td><td><code>teams-scraper init</code></td></tr>
+  <tr><td><code>chats.missing</code></td><td><code>chats</code> arrancó sin un chat, o el botón de Chat no apareció.</td><td><code>teams-scraper config</code>, o pasa <code>--chat</code>.</td></tr>
+  <tr><td><code>chats.not_allowed</code></td><td>Ese chat no está en la lista permitida.</td><td><code>teams-scraper config</code></td></tr>
+  <tr><td><code>teams.timeout</code></td><td>Teams, una pestaña o la lista de archivos no terminó de cargar.</td><td>Corre el mismo comando otra vez.</td></tr>
+  <tr><td><code>teams.assignments_unavailable</code></td><td>No se abrió Assignments.</td><td>Corre el mismo comando otra vez.</td></tr>
+  <tr><td><code>teams.card_missing</code></td><td>Esa tarjeta no está en la lista.</td><td></td></tr>
+  <tr><td><code>teams.card_mismatch</code></td><td>La tarea abierta no coincide con la tarjeta, así que no se guardó nada.</td><td></td></tr>
+  <tr><td><code>teams.sharepoint_unavailable</code></td><td>SharePoint no cargó, así que este pase no se guardó.</td><td></td></tr>
+  <tr><td><code>teams.class_missing</code></td><td>Esa clase no está en la lista de Teams.</td><td>Revisa <code>name</code> en la config. Tiene que coincidir con Teams.</td></tr>
+  <tr><td><code>teams.channel_missing</code></td><td>Ese canal no está en la lista.</td><td></td></tr>
+  <tr><td><code>teams.chat_unavailable</code></td><td>El chat no se abrió, o la conversación no se quedó seleccionada.</td><td></td></tr>
+  <tr><td><code>teams.chat_list_missing</code></td><td>No apareció la lista de chats.</td><td></td></tr>
+  <tr><td><code>teams.chat_list_empty</code></td><td>La lista de chats no mostró una conversación.</td><td></td></tr>
+  <tr><td><code>teams.read_failed</code></td><td>Este paso no pudo terminar. La frase dice cuál.</td><td></td></tr>
+  <tr><td><code>storage.missing_id</code></td><td>Una tarea necesita un id antes de guardarse.</td><td></td></tr>
+  <tr><td><code>storage.bad_id</code></td><td>Ese id no puede ser nombre de carpeta, así que el catálogo no se escribió.</td><td></td></tr>
+  <tr><td><code>storage.failed</code></td><td>El almacén falló. La frase incluye el detalle.</td><td></td></tr>
+</table>
+<div class="pair">
+  <figure class="shot">
+    <img src="media/error.png" alt="config.missing en inglés">
+    <figcaption>Inglés, que es el idioma por defecto.</figcaption>
+  </figure>
+  <figure class="shot">
+    <img src="media/lang-es.png" alt="config.missing con --lang es">
+    <figcaption>La misma parada con --lang es.</figcaption>
+  </figure>
+</div>
+            <div class="pager"><a href="data.html"><small>Anterior</small>Datos</a><a href="problems.html"><small>Siguiente</small>Cuando falla</a></div>
+            <footer class="site">Paquete público <a href="https://github.com/notnomoro/teams-scraper">teams-scraper</a> · MIT · <a href="https://github.com/notnomoro/teams-scraper/issues">Problemas</a> · <a href="https://github.com/notnomoro/teams-scraper/releases">Descargas</a></footer>
+          </article>
+        </div>
+        <aside class="toc">
+          <p>En esta página</p>
+          <div id="toc-links"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script src="js/search-es.js"></script>
+  <script src="js/site.js"></script>
+</body>
+</html>

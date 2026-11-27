@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Referencia de comandos · Teams Scraper</title>
+  <link rel="icon" href="media/logo.svg">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body data-copy="Copiar" data-copied="Copiado">
+  <a class="skip" href="#doc">En esta página</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <img src="media/logo.svg" alt="Teams Scraper">
+        <small>Guía 1.0.0</small>
+      </a>
+      <div class="search">
+        <input id="q" type="search" placeholder="Buscar" autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <nav>
+        <div class="nav-group">Empezar</div><a href="index.html">Inicio</a><a href="install.html">Instalación</a><a href="init.html">Primer uso</a><div class="nav-group">Comandos</div><a class="active" aria-current="page" href="commands.html">Referencia</a><a href="upcoming.html">upcoming</a><a href="past-due.html">past-due</a><a href="completed.html">completed</a><a href="activity.html">activity</a><a href="channels.html">channels</a><a href="chats.html">chats</a><a href="downloads.html">downloads</a><a href="sync.html">sync</a><a href="open.html">open</a><a href="all.html">all</a><a href="options.html">Opciones</a><a href="config.html">config</a><a href="revert.html">revert</a><div class="nav-group">Librería</div><a href="library.html">API</a><a href="store.html">Almacén</a><a href="data.html">Datos</a><div class="nav-group">Problemas</div><a href="errors.html">Errores</a><a href="problems.html">Cuando falla</a><a href="faq.html">Preguntas</a><div class="nav-group">Proyecto</div><a href="architecture.html">Arquitectura</a><a href="privacy.html">Privacidad</a><a href="changelog.html">Cambios</a><a href="contributing.html">Contribuir</a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <div class="crumbs"><button class="menu" id="nav-toggle" type="button">Menú</button> <b>Comandos</b> / Referencia</div>
+        <div class="langs"><span class="on">Español</span><a href="en/commands.html">English</a></div>
+      </header>
+      <div class="content-grid">
+        <div>
+          <article id="doc">
+            <h1>Referencia de comandos</h1>
+<p class="lede">Cada comando lee una cosa. <code>all</code> junta varias. Los chats no entran en <code>all</code>.</p>
+<table>
+  <tr><th>Comando</th><th>Qué lee</th><th>Navegador</th></tr>
+  <tr><td><a href="upcoming.html"><code>upcoming</code></a></td><td>Tareas que todavía no vencen.</td><td>Sí</td></tr>
+  <tr><td><a href="past-due.html"><code>past-due</code></a></td><td>Tareas fuera de fecha.</td><td>Sí</td></tr>
+  <tr><td><a href="completed.html"><code>completed</code></a></td><td>Tareas ya entregadas.</td><td>Sí</td></tr>
+  <tr><td><a href="activity.html"><code>activity</code></a></td><td>Avisos desde la última lectura.</td><td>Sí</td></tr>
+  <tr><td><a href="channels.html"><code>channels</code></a></td><td>Publicaciones, archivos, canales y notas.</td><td>Sí</td></tr>
+  <tr><td><a href="chats.html"><code>chats</code></a></td><td>Mensajes de los chats que permitiste.</td><td>Sí</td></tr>
+  <tr><td><a href="downloads.html"><code>downloads</code></a></td><td>De dónde salen los archivos ya guardados.</td><td>No</td></tr>
+  <tr><td><a href="sync.html"><code>sync</code></a></td><td>Copia el catálogo a la base y reescribe <code>activity.json</code> si hay avisos.</td><td>No</td></tr>
+  <tr><td><a href="open.html"><code>open</code></a></td><td>Abre Teams y espera. No lee nada.</td><td>Sí</td></tr>
+  <tr><td><a href="all.html"><code>all</code></a></td><td>Actividad, próximas, vencidas, entregadas y canales.</td><td>Sí</td></tr>
+  <tr><td><a href="init.html"><code>init</code></a></td><td>Idioma, navegador, clases, chats, carpeta y descargas.</td><td>Sí, para marcar clases</td></tr>
+  <tr><td><a href="config.html"><code>config</code></a></td><td>Cambia un campo guardado.</td><td>No</td></tr>
+  <tr><td><a href="revert.html"><code>revert</code></a></td><td>Devuelve la config anterior.</td><td>No</td></tr>
+</table>
+<h2>Otros nombres</h2>
+<table>
+  <tr><th>Escribes</th><th>Es</th></tr>
+  <tr><td><code>todo</code></td><td><code>all</code></td></tr>
+  <tr><td><code>canales</code></td><td><code>channels</code></td></tr>
+  <tr><td><code>abrir</code></td><td><code>open</code></td></tr>
+  <tr><td><code>descargas</code></td><td><code>downloads</code></td></tr>
+  <tr><td><code>sincronizar-bd</code></td><td><code>sync</code></td></tr>
+  <tr><td><code>pastdue</code></td><td><code>past-due</code></td></tr>
+  <tr><td><code>inicio</code>, <code>iniciar</code></td><td><code>init</code></td></tr>
+  <tr><td><code>ayuda</code></td><td><code>help</code></td></tr>
+  <tr><td><code>configurar</code>, <code>editar</code></td><td><code>config</code></td></tr>
+  <tr><td><code>revertir</code>, <code>deshacer</code></td><td><code>revert</code></td></tr>
+</table>
+<h2>Ejemplos</h2>
+<pre><code>teams-scraper upcoming
+teams-scraper channels -s hist -p posts,grades
+teams-scraper chats --chat all
+teams-scraper upcoming --lang es --limit 1
+teams-scraper config
+teams-scraper revert</code></pre>
+<p><code>channels</code> sin una clase se detiene con <code>subjects.missing</code>. <code>chats</code> sin <code>--chat</code> se detiene con <code>chats.missing</code>. Las banderas están en <a href="options.html">Opciones</a>.</p>
+<h2>Qué imprime una corrida</h2>
+<p>El encabezado dice el modo, el navegador y la hora. Cada paso va marcado. Al final hay un resumen: estado, modo, elementos y duración.</p>
+<table>
+  <tr><th>Inglés</th><th>Con --lang es</th><th>Qué significa</th></tr>
+  <tr><td><code>STEP</code></td><td><code>PASO</code></td><td>Un paso en curso.</td></tr>
+  <tr><td><code>OK</code></td><td><code>OK</code></td><td>Ese paso terminó.</td></tr>
+  <tr><td><code>INFO</code></td><td><code>INFO</code></td><td>Un dato, por ejemplo una tarjeta ya guardada que se salta.</td></tr>
+  <tr><td><code>NOTE</code></td><td><code>AVISO</code></td><td>Algo que limita la corrida.</td></tr>
+  <tr><td><code>COMPLETE</code></td><td><code>COMPLETA</code></td><td>Los pasos terminaron.</td></tr>
+  <tr><td><code>PARTIAL</code></td><td><code>PARCIAL</code></td><td>Un paso se saltó o se limitó.</td></tr>
+  <tr><td><code>FAILED</code></td><td><code>FALLIDA</code></td><td>La corrida se detuvo. La nota es <code>code: frase</code>.</td></tr>
+</table>
+<p><code>--limit</code> lee esa cantidad de tareas y deja la copia JSON anterior en su sitio. Una tarjeta que ya está completa se salta, con las excepciones de cada lista. Una lectura a medias no sustituye un valor guardado por uno vacío.</p>
+<figure class="shot">
+  <img src="media/summary.png" alt="Resumen de teams-scraper downloads">
+  <figcaption>downloads no abre el navegador. El resumen sale igual: estado, modo y duración.</figcaption>
+</figure>
+<p>Una bandera mala o un comando desconocido sale con estado 2 y sugiere un nombre cercano. Una lectura que falla sale con estado 1 e imprime <code>code: frase</code>.</p>
+<figure class="shot">
+  <img src="media/unknown-es.png" alt="Comando desconocido upcomng">
+  <figcaption>upcomng no existe. La sugerencia de al lado sí.</figcaption>
+</figure>
+            <div class="pager"><a href="init.html"><small>Anterior</small>Primer uso</a><a href="upcoming.html"><small>Siguiente</small>upcoming</a></div>
+            <footer class="site">Paquete público <a href="https://github.com/notnomoro/teams-scraper">teams-scraper</a> · MIT · <a href="https://github.com/notnomoro/teams-scraper/issues">Problemas</a> · <a href="https://github.com/notnomoro/teams-scraper/releases">Descargas</a></footer>
+          </article>
+        </div>
+        <aside class="toc">
+          <p>En esta página</p>
+          <div id="toc-links"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script src="js/search-es.js"></script>
+  <script src="js/site.js"></script>
+</body>
+</html>

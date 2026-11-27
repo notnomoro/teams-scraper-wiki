@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Almacén · Teams Scraper</title>
+  <link rel="icon" href="media/logo.svg">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body data-copy="Copiar" data-copied="Copiado">
+  <a class="skip" href="#doc">En esta página</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="index.html">
+        <img src="media/logo.svg" alt="Teams Scraper">
+        <small>Guía 1.0.0</small>
+      </a>
+      <div class="search">
+        <input id="q" type="search" placeholder="Buscar" autocomplete="off">
+        <div id="search-results"></div>
+      </div>
+      <nav>
+        <div class="nav-group">Empezar</div><a href="index.html">Inicio</a><a href="install.html">Instalación</a><a href="init.html">Primer uso</a><div class="nav-group">Comandos</div><a href="commands.html">Referencia</a><a href="upcoming.html">upcoming</a><a href="past-due.html">past-due</a><a href="completed.html">completed</a><a href="activity.html">activity</a><a href="channels.html">channels</a><a href="chats.html">chats</a><a href="downloads.html">downloads</a><a href="sync.html">sync</a><a href="open.html">open</a><a href="all.html">all</a><a href="options.html">Opciones</a><a href="config.html">config</a><a href="revert.html">revert</a><div class="nav-group">Librería</div><a href="library.html">API</a><a class="active" aria-current="page" href="store.html">Almacén</a><a href="data.html">Datos</a><div class="nav-group">Problemas</div><a href="errors.html">Errores</a><a href="problems.html">Cuando falla</a><a href="faq.html">Preguntas</a><div class="nav-group">Proyecto</div><a href="architecture.html">Arquitectura</a><a href="privacy.html">Privacidad</a><a href="changelog.html">Cambios</a><a href="contributing.html">Contribuir</a>
+      </nav>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <div class="crumbs"><button class="menu" id="nav-toggle" type="button">Menú</button> <b>Librería</b> / Almacén</div>
+        <div class="langs"><span class="on">Español</span><a href="en/store.html">English</a></div>
+      </header>
+      <div class="content-grid">
+        <div>
+          <article id="doc">
+            <h1>Almacén</h1>
+<p class="lede">El lector habla con un <code>Almacen</code>. No abre <code>sqlite3</code> por su cuenta. <code>SqliteAlmacen</code> escribe <code>teams.db</code>. <code>MemoryAlmacen</code> es el mismo contrato en memoria.</p>
+<pre><code>from teams_scraper import Almacen, run
+
+class JsonStore(Almacen):
+    def __init__(self):
+        self.tasks = []
+
+    def save_task(self, task, tab, run_id=None, clear_reread=False):
+        self.tasks.append(
+            {
+                "tab": tab,
+                "id": task.get("id_en_html"),
+                "title": task.get("titulo"),
+            }
+        )
+
+store = JsonStore()
+run("upcoming", limit=1, store=store)</code></pre>
+<p><code>Almacen</code> ya implementa el resto de métodos como resultados vacíos. Sustituye los que quieras conservar. <code>save_task</code> es el que lanza si te lo saltas.</p>
+<p>Una tarea necesita <code>id_en_html</code> o <code>id_tarea</code>. Sin id el código es <code>storage.missing_id</code> y no se escribe nada. Un campo vacío en una lectura posterior no sustituye un valor que ya está guardado. Un prefijo más corto de una frase guardada tampoco la sustituye.</p>
+<h2>Métodos</h2>
+<table>
+  <tr><th>Método</th><th>Qué espera el lector</th></tr>
+  <tr><td><code>start_run(mode)</code></td><td>Abre una corrida. Devuelve un id.</td></tr>
+  <tr><td><code>finish_run(run_id, result, processed, notes="")</code></td><td>La cierra. <code>result</code> es <code>completa</code>, <code>parcial</code> o <code>fallida</code>.</td></tr>
+  <tr><td><code>save_task(task, tab, run_id=None, clear_reread=False)</code></td><td>Guarda una tarea. <code>tab</code> es <code>Upcoming</code>, <code>Past due</code>, <code>Completed</code> o <code>Grades</code>.</td></tr>
+  <tr><td><code>task_needs_reread(task_id)</code></td><td>Verdadero cuando Activity pidió leer otra vez esa tarjeta.</td></tr>
+  <tr><td><code>task_snapshot(task_id)</code></td><td>La fecha y el estado guardados, o <code>None</code>.</td></tr>
+  <tr><td><code>list_tasks(tab=None)</code></td><td>Tareas. <code>tab</code> filtra una lista.</td></tr>
+  <tr><td><code>list_files()</code></td><td>Archivos ya guardados.</td></tr>
+  <tr><td><code>save_notifications(items, run_id=None)</code></td><td>Filas de Activity. Devuelve cuántas eran nuevas.</td></tr>
+  <tr><td><code>apply_notification_actions(items, run_id=None)</code></td><td>Marca tarjetas que Activity quiere volver a leer. Devuelve avisos de canal, relecturas y tareas nuevas sin detalle.</td></tr>
+  <tr><td><code>save_channel_posts(posts, run_id=None)</code></td><td>Publicaciones de un canal.</td></tr>
+  <tr><td><code>save_channel_folder(record, run_id=None)</code></td><td>Una carpeta compartida.</td></tr>
+  <tr><td><code>save_team_channel(record, run_id=None)</code></td><td>El nombre de un canal.</td></tr>
+  <tr><td><code>save_channel_file(record, run_id=None)</code></td><td>Un archivo compartido.</td></tr>
+  <tr><td><code>channel_file_downloaded(subject, channel, folder, name)</code></td><td>El archivo guardado, o <code>None</code>.</td></tr>
+  <tr><td><code>save_grade(record, run_id=None)</code></td><td>Una fila de notas.</td></tr>
+  <tr><td><code>sync_catalog()</code></td><td>Copia <code>catalogo/</code> a la base cuando esos archivos existen. Cada corrida lo llama antes de leer.</td></tr>
+  <tr><td><code>stats()</code></td><td>Los conteos de la línea final: tareas, listas, archivos, avisos, carpetas y relecturas.</td></tr>
+  <tr><td><code>close()</code></td><td>Suelta la conexión. <code>connect()</code> se puede usar con <code>with</code>.</td></tr>
+</table>
+<h2>Qué recibe save_task</h2>
+<table>
+  <tr><th>Clave</th><th>Significado</th></tr>
+  <tr><td><code>id_en_html</code></td><td>Id de la tarjeta.</td></tr>
+  <tr><td><code>titulo</code></td><td>Título.</td></tr>
+  <tr><td><code>materia</code></td><td>Nombre de la clase.</td></tr>
+  <tr><td><code>docente</code></td><td>Docente, cuando la config tiene uno.</td></tr>
+  <tr><td><code>fecha</code></td><td>Fecha de entrega tal como la muestra Teams.</td></tr>
+  <tr><td><code>grupo_fecha</code></td><td>Grupo de fecha en la lista.</td></tr>
+  <tr><td><code>etiqueta</code></td><td>Etiqueta de la tarjeta.</td></tr>
+  <tr><td><code>puntos</code></td><td>Puntos.</td></tr>
+  <tr><td><code>estado_lista</code></td><td>Estado en la lista.</td></tr>
+  <tr><td><code>detalle</code></td><td>La tarea abierta: instrucciones, puntos, archivos, metadatos.</td></tr>
+</table>
+            <div class="pager"><a href="library.html"><small>Anterior</small>API</a><a href="data.html"><small>Siguiente</small>Datos</a></div>
+            <footer class="site">Paquete público <a href="https://github.com/notnomoro/teams-scraper">teams-scraper</a> · MIT · <a href="https://github.com/notnomoro/teams-scraper/issues">Problemas</a> · <a href="https://github.com/notnomoro/teams-scraper/releases">Descargas</a></footer>
+          </article>
+        </div>
+        <aside class="toc">
+          <p>En esta página</p>
+          <div id="toc-links"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <script src="js/search-es.js"></script>
+  <script src="js/site.js"></script>
+</body>
+</html>

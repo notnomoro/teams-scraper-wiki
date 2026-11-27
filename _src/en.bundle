@@ -1,0 +1,762 @@
+##### start | Start
+===== index | Home | Home
+<h1>Teams Scraper</h1>
+<p class="lede">It reads your class Teams and keeps the result on your computer. Assignments, files, grades, and posts. It does not turn work in.</p>
+<div class="cards">
+  <a class="card" href="install.html"><span class="kicker">Start</span><strong>Install</strong><span>Python 3.11, pip, and a browser.</span></a>
+  <a class="card" href="init.html"><span class="kicker">Start</span><strong>First run</strong><span>What init asks, in order.</span></a>
+  <a class="card" href="commands.html"><span class="kicker">Commands</span><strong>Each one</strong><span>What it reads, what it stores, what can fail.</span></a>
+  <a class="card" href="library.html"><span class="kicker">Library</span><strong>From Python</strong><span>run, connect, and your own store.</span></a>
+  <a class="card" href="errors.html"><span class="kicker">Problems</span><strong>Codes</strong><span>The code does not follow the language.</span></a>
+  <a class="card" href="privacy.html"><span class="kicker">Project</span><strong>Privacy</strong><span>It stays on your machine.</span></a>
+</div>
+<h2>If you want it running</h2>
+<pre><code>pip install teams-scraper
+teams-scraper init
+teams-scraper upcoming --limit 1</code></pre>
+<p><code>init</code> asks for the language, the browser, and which classes to open. The first read takes a single assignment, so you can see what comes back. The walkthrough is in <a href="install.html">Install</a> and <a href="init.html">First run</a>.</p>
+<h2>Browsers</h2>
+<figure class="shot graphic">
+  <img src="{{M}}browsers.svg" alt="Chrome, Edge, Brave, Opera, Firefox, LibreWolf, and Zen">
+  <figcaption>Chromium on the first row. Firefox on the second. Another install is just a path.</figcaption>
+</figure>
+<p>In the window this opens, turn off ad blockers and privacy shields. They fight with Teams.</p>
+<h2>How a run goes</h2>
+<figure class="shot graphic">
+  <img src="{{M}}flow.svg" alt="From the command, to the browser, to a folder you choose">
+  <figcaption>The command opens Teams read only. The rows stay where you leave them.</figcaption>
+</figure>
+<h2>What it does</h2>
+<p>It is for class Teams: the assignments, grades, channels, and files a student already has.</p>
+<ul>
+  <li>Reads Upcoming, Past due, and Completed, then opens each assignment you ask for.</li>
+  <li>Saves the class list, channel posts, shared files, and grades when you ask for those parts.</li>
+  <li>Keeps a browser profile in your data folder. It does not use your everyday profile.</li>
+  <li>Speaks English unless you pass <code>--lang es</code> or set <code>language</code> in the config.</li>
+  <li>Stores rows in SQLite. Another project can pass its own store to <code>run(store=...)</code>.</li>
+</ul>
+<aside class="callout stop">
+  <p class="callout-label">It does not submit</p>
+  <p>It does not submit an assignment, post a message, or send the rows to the maintainer. A failed page is not treated as an empty class.</p>
+</aside>
+<h2>When a run stops</h2>
+<p>It stops with a stable code, such as <code>config.missing</code> or <code>browser.profile_locked</code>. The sentence changes with the language. The code does not. The list is in <a href="errors.html">Errors</a>. The symptom guide is in <a href="problems.html">When it fails</a>.</p>
+<h2>What it looks like</h2>
+<p>The pictures are the program. The class in the examples is made up, and a path under your user folder is covered before the picture is saved.</p>
+<figure class="shot">
+  <img src="{{M}}help.png" alt="teams-scraper --help">
+  <figcaption>teams-scraper --help. The help lists the commands and the options.</figcaption>
+</figure>
+<figure class="shot">
+  <img src="{{M}}init.png" alt="teams-scraper init">
+  <figcaption>init. Language, browser, class, and chat. History 101 is an example.</figcaption>
+</figure>
+<div class="gallery">
+  <figure class="shot">
+    <img src="{{M}}sync.png" alt="sync run summary">
+    <figcaption>sync finishes COMPLETE. It does not open the browser.</figcaption>
+  </figure>
+  <figure class="shot">
+    <img src="{{M}}summary.png" alt="downloads run summary">
+    <figcaption>downloads finishes PARTIAL. There was no new read.</figcaption>
+  </figure>
+  <figure class="shot">
+    <img src="{{M}}subjects.png" alt="Error subjects.missing">
+    <figcaption>channels without a class. The code stays put. The sentence follows the language.</figcaption>
+  </figure>
+  <figure class="shot">
+    <img src="{{M}}unknown.png" alt="Unknown command">
+    <figcaption>A mistyped name. It suggests the closest command.</figcaption>
+  </figure>
+</div>
+<h2>Built with</h2>
+<table>
+  <tr><th>Piece</th><th>What it uses</th></tr>
+  <tr><td>Command</td><td><code>teams-scraper</code></td></tr>
+  <tr><td>Browser</td><td>Selenium 4. Chromium for Chrome, Edge, Brave, and Opera. Firefox for Firefox, LibreWolf, and Zen.</td></tr>
+  <tr><td>Store</td><td>SQLite in your data folder, or a class you pass in</td></tr>
+  <tr><td>Text</td><td><code>locales/en.json</code> and <code>locales/es.json</code></td></tr>
+  <tr><td>Errors</td><td><code>TeamsScraperError.code</code></td></tr>
+</table>
+<p>Version 1.0.0, 26 November 2026. MIT license. The code is at <a href="https://github.com/notnomoro/teams-scraper">github.com/notnomoro/teams-scraper</a>.</p>
+===== install | Install | Install
+<h1>Install</h1>
+<p class="lede">Python 3.11 or newer, and a browser Teams can open. Selenium 4 brings the driver.</p>
+<pre><code>pip install teams-scraper
+teams-scraper init</code></pre>
+<p><code>init</code> asks for the language, the browser, and the data folder. It opens Teams, lets you check the classes with <code>[x]</code> and <code>[ ]</code>, then asks for the teacher and a shortcut. You can run it again and change one part. The walkthrough is in <a href="init.html">First run</a>.</p>
+<h2>From this repository</h2>
+<pre><code>git clone https://github.com/notnomoro/teams-scraper.git
+cd teams-scraper
+pip install -e .</code></pre>
+<h2>The browser</h2>
+<p>Chrome, Edge, Brave, and Opera are Chromium. Firefox, LibreWolf, and Zen are Firefox. Paste the path if yours is somewhere else.</p>
+<figure class="shot graphic">
+  <img src="{{M}}browsers.svg" alt="The seven browsers">
+  <figcaption>The ones init knows how to look for. A pasted path works too.</figcaption>
+</figure>
+<p>The profile stays in the data folder. It is not the profile you use every day, so a browser you already use can still be signed out here.</p>
+<p>If that profile is not signed in to Teams, the run opens the window and asks you to sign in. Press Enter in the terminal when Teams is ready. From code, the same case raises <code>auth.login_required</code> instead of waiting.</p>
+<aside class="callout warn">
+  <p class="callout-label">Extensions</p>
+  <p>Turn off extensions and security tools in each browser you pick. They clash with Teams. That includes ad blockers, privacy shields, and tracking protection. Do it in the browser the scraper opens, then reload Teams.</p>
+</aside>
+<h2>Data folder</h2>
+<p>The default folder is <code>datos/</code> in the current directory. <code>teams-scraper init</code> can point it somewhere else. One run can use <code>--data DIR</code> without changing the saved config.</p>
+<p>That folder holds <code>config.json</code>, the browser profile, <code>teams.db</code>, the JSON copies, and <code>descargas/</code>. Do not commit it. See <a href="privacy.html">Privacy</a>.</p>
+<h2>Check</h2>
+<pre><code>teams-scraper --help
+teams-scraper --version</code></pre>
+<p><code>--help</code> lists the commands. A read without a config stops with <code>config.missing</code> and tells you to run <code>init</code>.</p>
+<figure class="shot">
+  <img src="{{M}}help.png" alt="teams-scraper --help">
+  <figcaption>Help in 1.0.0. The same screen appears when you pass no command.</figcaption>
+</figure>
+<h2>Update</h2>
+<pre><code>pip install --upgrade teams-scraper</code></pre>
+<p>From a clone, pull and run <code>pip install -e .</code> again. The data folder stays where you left it.</p>
+===== init | First run | First run
+<h1>First run</h1>
+<p class="lede"><code>teams-scraper init</code> writes <code>config.json</code>. Without that file, a read stops with <code>config.missing</code>.</p>
+<pre><code>teams-scraper init
+teams-scraper upcoming --limit 1</code></pre>
+<figure class="shot">
+  <img src="{{M}}init.png" alt="teams-scraper init with a sample class">
+  <figcaption>init. The sample class is History 101. It is not a real class.</figcaption>
+</figure>
+<h2>What it asks</h2>
+<ol>
+  <li>Language of the messages. English by default. Spanish with <code>es</code>.</li>
+  <li>Browser. It lists the ones it finds, including Chrome, or accepts a pasted path.</li>
+  <li>Data folder. Enter keeps <code>datos/</code> in the current directory.</li>
+  <li>It opens Teams. Sign in in that window if it asks, then press Enter.</li>
+  <li>Classes, with <code>[x]</code> and <code>[ ]</code>. Each checked class asks for the teacher and a shortcut, such as <code>hist</code>.</li>
+  <li>Allowed chats. Anything left off the list is never opened.</li>
+  <li>Whether to download files. The default is yes.</li>
+</ol>
+<p>Run <code>init</code> again to change one part. <code>teams-scraper config</code> edits the same file. The fields are in <a href="config.html">Configuration</a>.</p>
+<aside class="callout note">
+  <p class="callout-label">After init</p>
+  <p>The program suggests <code>teams-scraper upcoming</code>, <code>teams-scraper activity</code>, and, if you checked a class, <code>teams-scraper channels -s</code> with that shortcut.</p>
+</aside>
+<h2>The first read</h2>
+<p><code>upcoming --limit 1</code> opens one assignment and leaves the rest. The result is <code>PARTIAL</code> because the list was not read in full. With <code>--lang es</code> the terminal marks are <code>PASO</code>, <code>OK</code>, <code>INFO</code>, <code>AVISO</code>, <code>COMPLETA</code>, <code>PARCIAL</code>, and <code>FALLIDA</code>.</p>
+<p>The aliases of this command are <code>inicio</code> and <code>iniciar</code>.</p>
+##### commands | Commands
+===== commands | Reference | Command reference
+<h1>Command reference</h1>
+<p class="lede">Each command reads one thing. <code>all</code> joins several. Chats are not part of <code>all</code>.</p>
+<table>
+  <tr><th>Command</th><th>What it reads</th><th>Browser</th></tr>
+  <tr><td><a href="upcoming.html"><code>upcoming</code></a></td><td>Assignments that are not due yet.</td><td>Yes</td></tr>
+  <tr><td><a href="past-due.html"><code>past-due</code></a></td><td>Assignments past the due date.</td><td>Yes</td></tr>
+  <tr><td><a href="completed.html"><code>completed</code></a></td><td>Assignments already turned in.</td><td>Yes</td></tr>
+  <tr><td><a href="activity.html"><code>activity</code></a></td><td>Notifications since the last read.</td><td>Yes</td></tr>
+  <tr><td><a href="channels.html"><code>channels</code></a></td><td>Posts, shared files, channels, and grades.</td><td>Yes</td></tr>
+  <tr><td><a href="chats.html"><code>chats</code></a></td><td>Messages in the chats you allowed.</td><td>Yes</td></tr>
+  <tr><td><a href="downloads.html"><code>downloads</code></a></td><td>Where files already saved came from.</td><td>No</td></tr>
+  <tr><td><a href="sync.html"><code>sync</code></a></td><td>Copies the catalog into the database and rewrites <code>activity.json</code> when there are notices.</td><td>No</td></tr>
+  <tr><td><a href="open.html"><code>open</code></a></td><td>Opens Teams and waits. Nothing is read.</td><td>Yes</td></tr>
+  <tr><td><a href="all.html"><code>all</code></a></td><td>Activity, upcoming, past due, completed, and channels.</td><td>Yes</td></tr>
+  <tr><td><a href="init.html"><code>init</code></a></td><td>Language, browser, classes, chats, folder, and downloads.</td><td>Yes, to check classes</td></tr>
+  <tr><td><a href="config.html"><code>config</code></a></td><td>Change one saved field.</td><td>No</td></tr>
+  <tr><td><a href="revert.html"><code>revert</code></a></td><td>Put back the previous config.</td><td>No</td></tr>
+</table>
+<h2>Other names</h2>
+<table>
+  <tr><th>You type</th><th>It is</th></tr>
+  <tr><td><code>todo</code></td><td><code>all</code></td></tr>
+  <tr><td><code>canales</code></td><td><code>channels</code></td></tr>
+  <tr><td><code>abrir</code></td><td><code>open</code></td></tr>
+  <tr><td><code>descargas</code></td><td><code>downloads</code></td></tr>
+  <tr><td><code>sincronizar-bd</code></td><td><code>sync</code></td></tr>
+  <tr><td><code>pastdue</code></td><td><code>past-due</code></td></tr>
+  <tr><td><code>inicio</code>, <code>iniciar</code></td><td><code>init</code></td></tr>
+  <tr><td><code>ayuda</code></td><td><code>help</code></td></tr>
+  <tr><td><code>configurar</code>, <code>editar</code></td><td><code>config</code></td></tr>
+  <tr><td><code>revertir</code>, <code>deshacer</code></td><td><code>revert</code></td></tr>
+</table>
+<h2>Examples</h2>
+<pre><code>teams-scraper upcoming
+teams-scraper channels -s hist -p posts,grades
+teams-scraper chats --chat all
+teams-scraper upcoming --lang es --limit 1
+teams-scraper config
+teams-scraper revert</code></pre>
+<p><code>channels</code> without a class stops with <code>subjects.missing</code>. <code>chats</code> without <code>--chat</code> stops with <code>chats.missing</code>. Flags are in <a href="options.html">Options</a>.</p>
+<h2>What a run prints</h2>
+<p>The header names the mode, the browser, and the clock. Each step is marked. The end is a summary: state, mode, items, and duration.</p>
+<table>
+  <tr><th>English</th><th>With --lang es</th><th>Meaning</th></tr>
+  <tr><td><code>STEP</code></td><td><code>PASO</code></td><td>A step in progress.</td></tr>
+  <tr><td><code>OK</code></td><td><code>OK</code></td><td>That step finished.</td></tr>
+  <tr><td><code>INFO</code></td><td><code>INFO</code></td><td>A note, such as a saved card that was skipped.</td></tr>
+  <tr><td><code>NOTE</code></td><td><code>AVISO</code></td><td>Something that limits the run.</td></tr>
+  <tr><td><code>COMPLETE</code></td><td><code>COMPLETA</code></td><td>The steps finished.</td></tr>
+  <tr><td><code>PARTIAL</code></td><td><code>PARCIAL</code></td><td>A step was skipped or limited.</td></tr>
+  <tr><td><code>FAILED</code></td><td><code>FALLIDA</code></td><td>The run stopped. The note is <code>code: sentence</code>.</td></tr>
+</table>
+<p><code>--limit</code> reads that many assignments and leaves the previous JSON copy in place. A card that is already complete is skipped, with the exceptions of each list. A partial read does not replace a stored value with an empty one.</p>
+<figure class="shot">
+  <img src="{{M}}summary.png" alt="Summary of teams-scraper downloads">
+  <figcaption>downloads does not open the browser. The summary is still state, mode, and duration.</figcaption>
+</figure>
+<p>A bad flag or an unknown command exits with status 2 and suggests a close match. A failed read exits with status 1 and prints <code>code: sentence</code>.</p>
+<figure class="shot">
+  <img src="{{M}}unknown.png" alt="Unknown command upcomng">
+  <figcaption>upcomng is not a command. The suggestion next to it is.</figcaption>
+</figure>
+===== upcoming | upcoming | upcoming
+<h1>upcoming</h1>
+<p class="lede">Assignments that are not due yet. It opens each card unless you limit the run.</p>
+<pre><code>teams-scraper upcoming
+teams-scraper upcoming --limit 1
+teams-scraper upcoming --no-detail</code></pre>
+<h2>What it stores</h2>
+<p>Each card goes to the store with the tab <code>Upcoming</code>. When the read opens the assignment, it also stores instructions, points, files, and metadata. A full read writes <code>upcoming.json</code>. With <code>--limit</code> or <code>--no-detail</code> that copy stays, and the summary is <code>PARTIAL</code>.</p>
+<h2>Cards already stored</h2>
+<p>A card already stored complete, with files, is skipped. A card stored complete with no files is opened again to recheck them. A card Activity asked to reread is opened again.</p>
+<p><code>-s</code> does not filter this list. The list is the one Teams shows the account. The teacher is filled in when the class name matches the config.</p>
+<h2>If it stops</h2>
+<p><code>config.missing</code> when there is no config. <code>teams.assignments_unavailable</code> when Assignments did not open. <code>teams.card_mismatch</code> when the opened assignment does not match the card: that read is not saved. Assignments are drawn inside an iframe. The read enters the frame before it looks for cards.</p>
+===== past-due | past-due | past-due
+<h1>past-due</h1>
+<p class="lede">Assignments past the due date. The alias is <code>pastdue</code>.</p>
+<pre><code>teams-scraper past-due
+teams-scraper past-due --limit 5</code></pre>
+<h2>What differs from upcoming</h2>
+<p>This list does not skip cards already stored. It opens again the ones Teams shows. The stored tab is <code>Past due</code>. A full read writes <code>past_due.json</code>.</p>
+<p>The rest of the contract is the same: <code>--limit</code> and <code>--no-detail</code> leave the previous JSON and mark the run partial. An empty field does not wipe a stored value.</p>
+===== completed | completed | completed
+<h1>completed</h1>
+<p class="lede">Assignments already turned in.</p>
+<pre><code>teams-scraper completed
+teams-scraper completed --no-download</code></pre>
+<h2>What it stores</h2>
+<p>The tab is <code>Completed</code>. A full read writes <code>completed.json</code>. A card already stored complete is skipped, unless Activity asked for it again.</p>
+<p><code>--no-download</code> stores file names and skips the download on this run. It does not change <code>download_files</code> in the config.</p>
+===== activity | activity | activity
+<h1>activity</h1>
+<p class="lede">Notifications since the last read. It does not open each assignment. It marks the ones worth reading again.</p>
+<pre><code>teams-scraper activity</code></pre>
+<h2>What it does with each notice</h2>
+<ul>
+  <li>Stores new rows in <code>notificaciones</code>.</li>
+  <li>If the notice is from a channel, it records it in <code>avisos_canal</code>.</li>
+  <li>If the notice asks to return to an assignment, it sets <code>requiere_relectura</code>. The next read of that list opens the card again.</li>
+  <li>If an assignment shows up that still has no detail, it says so and does not invent the body.</li>
+</ul>
+<p>It rewrites <code>activity.json</code> from the stored notices. The summary is <code>COMPLETE</code> when the list finishes.</p>
+===== channels | channels | channels
+<h1>channels</h1>
+<p class="lede">Posts, shared files, channel names, and grades for the classes you checked. The alias is <code>canales</code>.</p>
+<pre><code>teams-scraper channels -s hist
+teams-scraper channels -s hist -p posts,grades</code></pre>
+<p>Without at least one class in the config, the code is <code>subjects.missing</code>. <code>subjects[].name</code> has to match Teams. If it is not in the list, the code is <code>teams.class_missing</code>.</p>
+<figure class="shot">
+  <img src="{{M}}subjects.png" alt="subjects.missing">
+  <figcaption>channels with no class checked. The sentence is in English. The code is still subjects.missing.</figcaption>
+</figure>
+<h2>Parts</h2>
+<p>If you omit <code>-p</code>, it reads <code>posts</code> and <code>shared</code>. You can ask for several, separated by commas.</p>
+<table>
+  <tr><th>Part</th><th>What it stores</th></tr>
+  <tr><td><code>posts</code></td><td>Channel posts.</td></tr>
+  <tr><td><code>shared</code></td><td>Shared folders and files. Files go to <code>descargas/</code> when downloads are on.</td></tr>
+  <tr><td><code>channels</code></td><td>Channel names, including hidden ones the screen can show.</td></tr>
+  <tr><td><code>assignments</code></td><td>Assignments seen from the class.</td></tr>
+  <tr><td><code>grades</code></td><td>The grade text, in <code>calificacion_texto</code>.</td></tr>
+</table>
+<p>Part aliases: <code>asignaciones</code> and <code>assigments</code> are <code>assignments</code>. <code>calificaciones</code> is <code>grades</code>. <code>canales</code> is <code>channels</code>. An unknown part is <code>config.invalid</code>.</p>
+<p>Repeat <code>-s</code> for more than one class. The shortcut or the name has to be in the config.</p>
+===== chats | chats | chats
+<h1>chats</h1>
+<p class="lede">Messages in the conversations on the allowed list. This command is not part of <code>all</code>.</p>
+<pre><code>teams-scraper chats --chat "Study group"
+teams-scraper chats --chat all</code></pre>
+<p>It needs <code>--chat NAME</code> or <code>--chat all</code>. <code>todos</code> is the same as <code>all</code>. Without that, or if the Chat button did not appear, the code is <code>chats.missing</code>.</p>
+<p>A name that is not in <code>chats</code> in the config stops with <code>chats.not_allowed</code>. Add it with <a href="config.html">config</a>. Anything left off the list is never opened.</p>
+<h2>What it reads</h2>
+<p>It opens the conversation, prints the visible messages, and, when downloads are on, saves the files on screen. It does not walk a chat you left out. If the chat does not stay selected, the code is <code>teams.chat_unavailable</code>. If the list does not appear, <code>teams.chat_list_missing</code>. If it shows no conversation, <code>teams.chat_list_empty</code>.</p>
+===== downloads | downloads | downloads
+<h1>downloads</h1>
+<p class="lede">Where files already saved came from. It does not open the browser. The alias is <code>descargas</code>.</p>
+<pre><code>teams-scraper downloads</code></pre>
+<p>It prints the store counts and finishes <code>PARTIAL</code>, because there is no new read. Assignment, channel, and chat files live in <code>descargas/</code> inside the data folder when <code>download_files</code> is true.</p>
+<figure class="shot">
+  <img src="{{M}}summary.png" alt="downloads summary">
+  <figcaption>The downloads summary. Partial state, nothing newly read on that pass.</figcaption>
+</figure>
+<p><code>--no-download</code> on another command does not delete what is already downloaded. It only skips downloads for that run.</p>
+===== sync | sync | sync
+<h1>sync</h1>
+<p class="lede">It does not open the browser. The alias is <code>sincronizar-bd</code>.</p>
+<pre><code>teams-scraper sync</code></pre>
+<figure class="shot">
+  <img src="{{M}}sync.png" alt="sync summary">
+  <figcaption>An empty run, on purpose. The state is COMPLETE because nothing was left waiting.</figcaption>
+</figure>
+<p>Every run, including this one, calls <code>sync_catalog()</code> first. If <code>catalogo/</code> is in the data folder, those pieces are copied into the database.</p>
+<p>Then, if the store has notices, it rewrites <code>activity.json</code> from them. It prints the counts and finishes <code>COMPLETE</code>. It does not rebuild <code>upcoming.json</code>, <code>past_due.json</code>, or <code>completed.json</code>. Those copies are written by a full read of each list.</p>
+===== open | open | open
+<h1>open</h1>
+<p class="lede">Opens Teams and waits. It does not read assignments, channels, or chats. The alias is <code>abrir</code>.</p>
+<pre><code>teams-scraper open</code></pre>
+<p>Use it to sign in on this tool's profile. The window stays open. When Teams is ready, return to the terminal. From code, when nobody is waiting at a terminal, the same case raises <code>auth.login_required</code> instead of waiting.</p>
+<p>The summary is <code>COMPLETE</code> with zero items, because there was nothing to read.</p>
+===== all | all | all
+<h1>all</h1>
+<p class="lede">One pass over activity, upcoming, past due, completed, and channels. The alias is <code>todo</code>. Chats are not included.</p>
+<pre><code>teams-scraper all
+teams-scraper all -s hist -p posts,shared,grades</code></pre>
+<p>The order is fixed: Activity, then Assignments (upcoming, past-due, completed), then channels. At least one class is required, because the channel step needs it. Without one, <code>subjects.missing</code>.</p>
+<p>If you omit <code>-p</code>, channels read <code>posts</code> and <code>shared</code>. <code>-s</code> picks the classes for that step. The three assignment lists are read in full, with the same skip rules as each command on its own.</p>
+<p>If one list is limited, the summary of the whole run is <code>PARTIAL</code>. If a step raises a code, the run closes as <code>FAILED</code> and what was already stored stays.</p>
+===== options | Options | Options
+<h1>Options</h1>
+<p class="lede">The same flags apply to read commands. <code>init</code>, <code>config</code>, and <code>revert</code> ask in the terminal instead of using these flags.</p>
+<table>
+  <tr><th>Option</th><th>What it does</th></tr>
+  <tr><td><code>-s</code>, <code>--subject NAME</code></td><td>Shortcut or class name. Repeat the flag for more than one. It picks classes for <code>channels</code> and <code>all</code>.</td></tr>
+  <tr><td><code>-p</code>, <code>--part LIST</code></td><td>Channel parts, separated by commas: <code>posts</code>, <code>shared</code>, <code>assignments</code>, <code>channels</code>, <code>grades</code>.</td></tr>
+  <tr><td><code>--chat NAME</code></td><td>A name from the allowed list, or <code>all</code>.</td></tr>
+  <tr><td><code>--limit N</code></td><td>How many assignments to open. <code>0</code> means all of them.</td></tr>
+  <tr><td><code>--no-detail</code></td><td>List the cards and do not open each assignment.</td></tr>
+  <tr><td><code>--no-download</code></td><td>Do not download files on this run.</td></tr>
+  <tr><td><code>--keep-open</code></td><td>Leave the window open when the run ends. <code>open</code> leaves it open anyway.</td></tr>
+  <tr><td><code>--browser ID|PATH</code></td><td>Browser id from the config, or a path to an executable, for this run.</td></tr>
+  <tr><td><code>--lang en|es</code></td><td>Language for this run. The error code stays in English.</td></tr>
+  <tr><td><code>--data DIR</code></td><td>Folder for the config, the profile, and the database, for this run.</td></tr>
+  <tr><td><code>--mode</code></td><td>The same name as the command, if you pass it as a flag.</td></tr>
+  <tr><td><code>-h</code>, <code>--help</code></td><td>Show the help and exit 0. <code>ayuda</code> does the same.</td></tr>
+  <tr><td><code>--version</code></td><td>Print <code>teams-scraper 1.0.0</code> and exit.</td></tr>
+</table>
+<h2>Exit status</h2>
+<table>
+  <tr><th>Status</th><th>When</th></tr>
+  <tr><td>0</td><td>The run finished, even when the summary is partial.</td></tr>
+  <tr><td>1</td><td><code>TeamsScraperError</code>. The line is <code>code: sentence</code>.</td></tr>
+  <tr><td>2</td><td>A command or flag the argument parser rejected. It suggests a close match.</td></tr>
+</table>
+===== config | config | config
+<h1>config</h1>
+<p class="lede"><code>teams-scraper config</code> changes one field in <code>config.json</code>. The aliases are <code>configurar</code> and <code>editar</code>.</p>
+<p>The menu edits one part at a time: language, classes, chats, browser, folder, downloads, or the previous config. You can also edit the JSON yourself.</p>
+<p>If the file is missing, a read stops with <code>config.missing</code>. If it is broken, or it has no <code>browser</code>, the code is <code>config.invalid</code>. Both tell you to run <code>init</code>.</p>
+<p>The names below are the ones the example uses. They are not a real class.</p>
+<pre><code>{
+  "language": "en",
+  "browser": {
+    "id": "chrome",
+    "label": "Google Chrome",
+    "engine": "chromium",
+    "executable": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "profile": "perfil"
+  },
+  "subjects": [
+    {
+      "shortcut": "hist",
+      "name": "History 101",
+      "teacher": "A. Example"
+    }
+  ],
+  "chats": ["Study group"],
+  "download_files": true
+}</code></pre>
+<h2>Language</h2>
+<table>
+  <tr><th>Field</th><th>Default</th><th>What it does</th></tr>
+  <tr><td><code>language</code></td><td><code>en</code></td><td>Language of the messages this tool prints. <code>en</code> or <code>es</code>. Teams itself can use another language. <code>--lang</code> overrides this for one run.</td></tr>
+</table>
+<h2>Browser</h2>
+<table>
+  <tr><th>Field</th><th>Default</th><th>What it does</th></tr>
+  <tr><td><code>browser.id</code></td><td></td><td><code>chrome</code>, <code>edge</code>, <code>brave</code>, <code>opera</code>, <code>firefox</code>, <code>librewolf</code>, <code>zen</code>, or the executable name.</td></tr>
+  <tr><td><code>browser.label</code></td><td></td><td>Name printed in the run header.</td></tr>
+  <tr><td><code>browser.engine</code></td><td></td><td><code>chromium</code> or <code>firefox</code>. There is no third engine.</td></tr>
+  <tr><td><code>browser.executable</code></td><td></td><td>Full path to the <code>.exe</code>. If the file is missing, <code>browser.not_found</code>.</td></tr>
+  <tr><td><code>browser.profile</code></td><td><code>perfil</code></td><td>Profile folder inside the data directory. It is created for this tool.</td></tr>
+</table>
+<p>A bundled LibreWolf that lives under the data folder keeps <code>librewolf/Profiles/Default</code> when that profile is already there. If that profile is open and the lock cannot be removed, the run stops with <code>browser.profile_locked</code>.</p>
+<h2>Classes</h2>
+<table>
+  <tr><th>Field</th><th>Default</th><th>What it does</th></tr>
+  <tr><td><code>subjects</code></td><td><code>[]</code></td><td>Classes the tool may open for channels.</td></tr>
+  <tr><td><code>subjects[].shortcut</code></td><td></td><td>Short name you pass with <code>-s</code>. Example: <code>hist</code>.</td></tr>
+  <tr><td><code>subjects[].name</code></td><td></td><td>Class name as it appears in Teams.</td></tr>
+  <tr><td><code>subjects[].teacher</code></td><td>empty</td><td>Stored next to the class. Leave it empty and the task row uses <code>desconocido</code>.</td></tr>
+</table>
+<p>Teams sometimes replaces <code>ñ</code> with a broken character. If that broken form matches a teacher saved here, the stored name is the one that is kept.</p>
+<h2>Chats and downloads</h2>
+<table>
+  <tr><th>Field</th><th>Default</th><th>What it does</th></tr>
+  <tr><td><code>chats</code></td><td><code>[]</code></td><td>Conversations this tool may open.</td></tr>
+  <tr><td><code>download_files</code></td><td><code>true</code></td><td>Save files under <code>descargas/</code>. <code>false</code> stores the names and skips the download.</td></tr>
+</table>
+<h2>Data folder</h2>
+<p>The folder is not a field inside the JSON. It is where the JSON lives. The default is <code>datos/</code> in the current directory. <code>--data DIR</code> points one run at another folder. <code>TEAMS_SCRAPER_HOME</code> does the same when you launch the tool from another program.</p>
+===== revert | revert | revert
+<h1>revert</h1>
+<p class="lede">Puts <code>config.json</code> back to the contents of <code>config.prev.json</code>. The aliases are <code>revertir</code> and <code>deshacer</code>.</p>
+<pre><code>teams-scraper revert</code></pre>
+<p>Each save from <code>init</code> or <code>config</code> leaves the previous version in <code>config.prev.json</code>. <code>revert</code> swaps the two. If there is no previous file, there is nothing to restore.</p>
+<p>It does not touch <code>teams.db</code>, the profile, or <code>descargas/</code>.</p>
+##### library | Library
+===== library | API | Python API
+<h1>Python API</h1>
+<p class="lede">The public package is <code>teams_scraper</code>. This guide is for 1.0.0. Python 3.11 or newer. The dependency is Selenium 4.25 or newer.</p>
+<pre><code>from teams_scraper import connect, list_tasks, run
+
+run("upcoming", limit=1)
+with connect() as store:
+    for task in store.list_tasks():
+        print(task["titulo"])</code></pre>
+<p><code>run</code> raises <code>TeamsScraperError</code>. The terminal prints the code and exits 1. Your program reads <code>error.code</code>. The original cause is attached when there is one. The codes are in <a href="errors.html">Errors</a>.</p>
+<h2>Public names</h2>
+<table>
+  <tr><th>Name</th><th>What it is</th></tr>
+  <tr><td><code>run</code></td><td>One read. If you omit the store, it opens SQLite.</td></tr>
+  <tr><td><code>connect</code></td><td>Opens <code>SqliteAlmacen</code>, or returns the store you passed.</td></tr>
+  <tr><td><code>list_tasks</code></td><td>Stored assignments. <code>tab</code> may be <code>Upcoming</code>, <code>Past due</code>, <code>Completed</code>, or <code>Grades</code>.</td></tr>
+  <tr><td><code>list_files</code></td><td>Stored files.</td></tr>
+  <tr><td><code>Almacen</code></td><td>The contract. Subclass it and pass it to <code>run(store=...)</code>.</td></tr>
+  <tr><td><code>SqliteAlmacen</code></td><td>The store that ships. It writes <code>teams.db</code>.</td></tr>
+  <tr><td><code>MemoryAlmacen</code></td><td>The same contract in memory, for a test that should not open SQLite.</td></tr>
+  <tr><td><code>TeamsScraperError</code></td><td>A failure with a stable <code>code</code> and a message in the active language.</td></tr>
+</table>
+<h2>run</h2>
+<pre><code>run(
+    mode="upcoming",
+    *,
+    store=None,
+    browser=None,
+    subjects=None,
+    parts=None,
+    limit=0,
+    no_detail=False,
+    keep_open=False,
+    chat="",
+    download=None,
+    interactive=False,
+    language=None,
+)</code></pre>
+<table>
+  <tr><th>Argument</th><th>What it does</th></tr>
+  <tr><td><code>mode</code></td><td><code>upcoming</code>, <code>past-due</code>, <code>completed</code>, <code>activity</code>, <code>channels</code>, <code>chats</code>, <code>downloads</code>, <code>sync</code>, <code>open</code>, or <code>all</code>.</td></tr>
+  <tr><td><code>store</code></td><td>An <code>Almacen</code>. <code>None</code> opens SQLite and closes it at the end.</td></tr>
+  <tr><td><code>browser</code></td><td>Config id or executable path, for this call.</td></tr>
+  <tr><td><code>subjects</code></td><td>Shortcuts or names. Required for <code>channels</code> and <code>all</code> when the config has no classes.</td></tr>
+  <tr><td><code>parts</code></td><td>Channel parts. The default is <code>posts</code> and <code>shared</code>.</td></tr>
+  <tr><td><code>limit</code></td><td>How many assignments to open. <code>0</code> means all of them.</td></tr>
+  <tr><td><code>no_detail</code></td><td>Do not open each card.</td></tr>
+  <tr><td><code>keep_open</code></td><td>Do not close the window at the end.</td></tr>
+  <tr><td><code>chat</code></td><td>An allowed name, or <code>all</code>. Required for <code>chats</code>.</td></tr>
+  <tr><td><code>download</code></td><td><code>None</code> follows the config. <code>False</code> skips downloads for this call.</td></tr>
+  <tr><td><code>interactive</code></td><td><code>False</code> by default. If Teams asks for a sign-in, it raises <code>auth.login_required</code>. The terminal sets this when someone is at the keyboard, and then waits for Enter.</td></tr>
+  <tr><td><code>language</code></td><td><code>en</code> or <code>es</code> for this call.</td></tr>
+</table>
+<aside class="callout note">
+  <p class="callout-label">Data folder</p>
+  <p><code>run</code> does not take the folder. <code>connect(data_dir=...)</code> sets it, or call <code>teams_scraper.paths.set_data_dir</code> first. <code>TEAMS_SCRAPER_HOME</code> does the same. Otherwise the folder is <code>datos/</code> in the current directory.</p>
+</aside>
+<pre><code>run("upcoming", limit=1, store=my_store)</code></pre>
+<p>The contract for <code>my_store</code> is in <a href="store.html">Store</a>. The SQLite tables are in <a href="data.html">Data</a>.</p>
+===== store | Store | Store
+<h1>Store</h1>
+<p class="lede">The reader talks to an <code>Almacen</code>. It does not open <code>sqlite3</code> itself. <code>SqliteAlmacen</code> writes <code>teams.db</code>. <code>MemoryAlmacen</code> is the same contract in memory.</p>
+<pre><code>from teams_scraper import Almacen, run
+
+class JsonStore(Almacen):
+    def __init__(self):
+        self.tasks = []
+
+    def save_task(self, task, tab, run_id=None, clear_reread=False):
+        self.tasks.append(
+            {
+                "tab": tab,
+                "id": task.get("id_en_html"),
+                "title": task.get("titulo"),
+            }
+        )
+
+store = JsonStore()
+run("upcoming", limit=1, store=store)</code></pre>
+<p><code>Almacen</code> already implements the other methods as empty results. Override the ones you want to keep. <code>save_task</code> is the one that raises if you forget it.</p>
+<p>A task needs <code>id_en_html</code> or <code>id_tarea</code>. Without an id the code is <code>storage.missing_id</code> and nothing is written. An empty field on a later read does not replace a value that is already stored. A shorter prefix of a stored sentence does not replace it either.</p>
+<h2>Methods</h2>
+<table>
+  <tr><th>Method</th><th>What the reader expects</th></tr>
+  <tr><td><code>start_run(mode)</code></td><td>Open a run. Return an id.</td></tr>
+  <tr><td><code>finish_run(run_id, result, processed, notes="")</code></td><td>Close it. <code>result</code> is <code>completa</code>, <code>parcial</code>, or <code>fallida</code>.</td></tr>
+  <tr><td><code>save_task(task, tab, run_id=None, clear_reread=False)</code></td><td>Store one assignment. <code>tab</code> is <code>Upcoming</code>, <code>Past due</code>, <code>Completed</code>, or <code>Grades</code>.</td></tr>
+  <tr><td><code>task_needs_reread(task_id)</code></td><td>True when Activity asked for this card again.</td></tr>
+  <tr><td><code>task_snapshot(task_id)</code></td><td>The stored due date and list status, or <code>None</code>.</td></tr>
+  <tr><td><code>list_tasks(tab=None)</code></td><td>Assignments. <code>tab</code> filters one list.</td></tr>
+  <tr><td><code>list_files()</code></td><td>Files already stored.</td></tr>
+  <tr><td><code>save_notifications(items, run_id=None)</code></td><td>Activity rows. Return how many were new.</td></tr>
+  <tr><td><code>apply_notification_actions(items, run_id=None)</code></td><td>Mark cards that Activity wants read again. Returns channel notices, rereads, and new tasks without detail.</td></tr>
+  <tr><td><code>save_channel_posts(posts, run_id=None)</code></td><td>Channel posts.</td></tr>
+  <tr><td><code>save_channel_folder(record, run_id=None)</code></td><td>One shared folder.</td></tr>
+  <tr><td><code>save_team_channel(record, run_id=None)</code></td><td>One channel name.</td></tr>
+  <tr><td><code>save_channel_file(record, run_id=None)</code></td><td>One shared file.</td></tr>
+  <tr><td><code>channel_file_downloaded(subject, channel, folder, name)</code></td><td>The stored file, or <code>None</code>.</td></tr>
+  <tr><td><code>save_grade(record, run_id=None)</code></td><td>One grade row.</td></tr>
+  <tr><td><code>sync_catalog()</code></td><td>Copies <code>catalogo/</code> into the database when those files exist. Every run calls it before reading.</td></tr>
+  <tr><td><code>stats()</code></td><td>Counts for the closing line: tasks, lists, files, notices, folders, and rereads.</td></tr>
+  <tr><td><code>close()</code></td><td>Release the connection. <code>connect()</code> works with <code>with</code>.</td></tr>
+</table>
+<h2>What save_task receives</h2>
+<table>
+  <tr><th>Key</th><th>Meaning</th></tr>
+  <tr><td><code>id_en_html</code></td><td>Id from the card.</td></tr>
+  <tr><td><code>titulo</code></td><td>Title.</td></tr>
+  <tr><td><code>materia</code></td><td>Class name.</td></tr>
+  <tr><td><code>docente</code></td><td>Teacher, when the config has one.</td></tr>
+  <tr><td><code>fecha</code></td><td>Due date as Teams shows it.</td></tr>
+  <tr><td><code>grupo_fecha</code></td><td>Date group on the list.</td></tr>
+  <tr><td><code>etiqueta</code></td><td>Tag on the card.</td></tr>
+  <tr><td><code>puntos</code></td><td>Points.</td></tr>
+  <tr><td><code>estado_lista</code></td><td>List status.</td></tr>
+  <tr><td><code>detalle</code></td><td>The opened assignment: instructions, points, files, metadata.</td></tr>
+</table>
+===== data | Data | Data
+<h1>Data</h1>
+<p class="lede"><code>SqliteAlmacen.list_tasks()</code> returns rows from <code>tareas</code>. The names are the column names. <code>list_files()</code> reads <code>archivos</code>.</p>
+<p>A SQLite error is <code>storage.failed</code>. The sentence includes the database message. The cause stays on the exception. An id that cannot be a folder name is <code>storage.bad_id</code> and that catalog piece is not written.</p>
+<h2>What list_tasks returns</h2>
+<p><code>id_origen</code>, <code>titulo</code>, <code>materia</code>, <code>docente</code>, <code>pestana_vista</code>, <code>fecha_entrega_texto</code>, <code>estado_lista</code>, <code>instrucciones</code>, <code>detalle_completo</code>, <code>requiere_relectura</code>. The row can also carry the rest of the table columns.</p>
+<h2>Tables in teams.db</h2>
+<table>
+  <tr><th>Table</th><th>What it keeps</th></tr>
+  <tr><td><code>ejecuciones</code></td><td>Each run: <code>modo</code>, <code>resultado</code> (<code>en_curso</code>, then <code>completa</code>, <code>parcial</code>, or <code>fallida</code>), <code>tareas_procesadas</code>, <code>notas</code>, start, and end.</td></tr>
+  <tr><td><code>tareas</code></td><td>Assignments. The key is <code>id_origen</code>.</td></tr>
+  <tr><td><code>archivos</code>, <code>tarea_archivos</code></td><td>Files and which assignment they belong to. <code>rol</code> stays <code>no_confirmado</code> until a read sets it.</td></tr>
+  <tr><td><code>historial_cambios</code></td><td>A stored field that changed. An empty read does not add a row. The fields compared on a task are title, class, tab, date, statuses, points, and instructions.</td></tr>
+  <tr><td><code>notificaciones</code></td><td>Activity.</td></tr>
+  <tr><td><code>avisos_canal</code></td><td>Channel notices seen from Activity.</td></tr>
+  <tr><td><code>archivos_canal</code>, <code>carpetas_canal</code>, <code>canales_equipo</code></td><td>Shared files, folders, and channel names.</td></tr>
+</table>
+<h3>Task columns</h3>
+<p><code>id_origen</code>, <code>titulo</code>, <code>materia</code>, <code>docente</code>, <code>pestana_vista</code>, <code>grupo_fecha</code>, <code>fecha_entrega_texto</code>, <code>etiqueta</code>, <code>puntos_posibles</code>, <code>estado_lista</code>, <code>estado_entrega</code>, <code>permite_varios_envios</code>, <code>instrucciones</code>, <code>metadatos_json</code>, <code>detalle_completo</code>, <code>requiere_relectura</code>, <code>primera_vez_vista_en</code>, <code>ultima_vez_vista_en</code>, <code>ultima_ejecucion_id</code>, <code>calificacion_texto</code>, <code>comentario</code>.</p>
+<p><code>docente</code> is <code>desconocido</code> when the config has no teacher for that class. <code>calificacion_texto</code> and <code>comentario</code> are added when needed. The grade text is filled when <code>grades</code> is read.</p>
+<h2>Files next to the database</h2>
+<table>
+  <tr><th>Path</th><th>What it is</th></tr>
+  <tr><td><code>config.json</code></td><td>The setup from <code>init</code>.</td></tr>
+  <tr><td><code>config.prev.json</code></td><td>The previous setup. <code>revert</code> swaps the two.</td></tr>
+  <tr><td><code>teams.db</code></td><td>The SQLite file.</td></tr>
+  <tr><td><code>perfil/</code></td><td>The browser profile for this tool.</td></tr>
+  <tr><td><code>descargas/</code></td><td>Downloaded files.</td></tr>
+  <tr><td><code>upcoming.json</code>, <code>past_due.json</code>, <code>completed.json</code>, <code>activity.json</code></td><td>A copy of the last full list. <code>--limit</code> and <code>--no-detail</code> do not replace the assignment copy.</td></tr>
+  <tr><td><code>catalogo/</code></td><td>One JSON per assignment and per file, plus <code>indice.json</code>. A run copies these into the database when they are present.</td></tr>
+</table>
+##### trouble | Problems
+===== errors | Errors | Errors
+<h1>Errors</h1>
+<p class="lede">A failed run raises <code>TeamsScraperError</code>. The <code>code</code> is stable English. The sentence follows the language. The terminal prints both and exits 1.</p>
+<pre><code>[ERROR] config.missing: There is no config yet. Run: teams-scraper init</code></pre>
+<p>With <code>--lang es</code> the code stays <code>config.missing</code> and the sentence changes. From Python, read <code>error.code</code>. The original failure is attached as the cause when there is one.</p>
+<p>A bad command or a bad flag exits 2. That path is the argument parser, not one of these codes.</p>
+<table>
+  <tr><th>Code</th><th>When it happens</th><th>What to run</th></tr>
+  <tr><td><code>config.missing</code></td><td>There is no config yet.</td><td><code>teams-scraper init</code></td></tr>
+  <tr><td><code>config.invalid</code></td><td>The config is not valid, or it has no browser. A bad <code>--part</code> uses this code too.</td><td><code>teams-scraper init</code></td></tr>
+  <tr><td><code>browser.not_found</code></td><td>The executable is missing, or no browser is configured.</td><td><code>teams-scraper config</code></td></tr>
+  <tr><td><code>browser.profile_locked</code></td><td>That browser already has this profile open, and the lock cannot be removed.</td><td>Close that window, then run the same command.</td></tr>
+  <tr><td><code>browser.start_failed</code></td><td>The window could not be prepared.</td><td>Run the same command again.</td></tr>
+  <tr><td><code>browser.closed</code></td><td>The browser window was closed.</td><td>Run the same command again.</td></tr>
+  <tr><td><code>network.unreachable</code></td><td><code>teams.microsoft.com</code> on port 443 did not answer.</td><td>Check the network.</td></tr>
+  <tr><td><code>auth.login_required</code></td><td>Teams is asking for a sign-in. A terminal waits and asks you to press Enter. Code raises this instead of waiting.</td><td><code>teams-scraper open</code></td></tr>
+  <tr><td><code>subjects.missing</code></td><td>This mode needs a class.</td><td><code>teams-scraper init</code></td></tr>
+  <tr><td><code>chats.missing</code></td><td><code>chats</code> was started without a chat, or the Chat button did not appear.</td><td><code>teams-scraper config</code>, or pass <code>--chat</code>.</td></tr>
+  <tr><td><code>chats.not_allowed</code></td><td>That chat is not on the allowed list.</td><td><code>teams-scraper config</code></td></tr>
+  <tr><td><code>teams.timeout</code></td><td>Teams, a tab, or a file list did not finish loading.</td><td>Run the same command again.</td></tr>
+  <tr><td><code>teams.assignments_unavailable</code></td><td>Assignments did not open.</td><td>Run the same command again.</td></tr>
+  <tr><td><code>teams.card_missing</code></td><td>That card is not in the list.</td><td></td></tr>
+  <tr><td><code>teams.card_mismatch</code></td><td>The opened assignment does not match the card, so nothing was saved.</td><td></td></tr>
+  <tr><td><code>teams.sharepoint_unavailable</code></td><td>SharePoint did not load, so this pass was not saved.</td><td></td></tr>
+  <tr><td><code>teams.class_missing</code></td><td>That class is not in the Teams list.</td><td>Check <code>name</code> in the config. It has to match Teams.</td></tr>
+  <tr><td><code>teams.channel_missing</code></td><td>That channel is not in the list.</td><td></td></tr>
+  <tr><td><code>teams.chat_unavailable</code></td><td>Chat did not open, or the conversation did not stay selected.</td><td></td></tr>
+  <tr><td><code>teams.chat_list_missing</code></td><td>The chat list did not appear.</td><td></td></tr>
+  <tr><td><code>teams.chat_list_empty</code></td><td>The chat list did not show a conversation.</td><td></td></tr>
+  <tr><td><code>teams.read_failed</code></td><td>This step could not finish. The sentence names the step.</td><td></td></tr>
+  <tr><td><code>storage.missing_id</code></td><td>A task needs an id before it can be stored.</td><td></td></tr>
+  <tr><td><code>storage.bad_id</code></td><td>That id cannot be a folder name, so the catalog was not written.</td><td></td></tr>
+  <tr><td><code>storage.failed</code></td><td>The store raised. The sentence includes the detail.</td><td></td></tr>
+</table>
+<div class="pair">
+  <figure class="shot">
+    <img src="{{M}}error.png" alt="config.missing in English">
+    <figcaption>English, which is the default.</figcaption>
+  </figure>
+  <figure class="shot">
+    <img src="{{M}}lang-es.png" alt="config.missing with --lang es">
+    <figcaption>The same stop with --lang es.</figcaption>
+  </figure>
+</div>
+===== problems | When it fails | When it fails
+<h1>When it fails</h1>
+<p class="lede">The code is enough to see what happened. Do not paste cookies, session files, or other people's names into an issue.</p>
+<h2>There is no config</h2>
+<p>The line is <code>config.missing</code>. Run <code>teams-scraper init</code>. The program does not invent a class or a browser.</p>
+<figure class="shot">
+  <img src="{{M}}error.png" alt="config.missing">
+  <figcaption>The stop, and the command that clears it.</figcaption>
+</figure>
+<h2>The sentence is English and you wanted Spanish</h2>
+<p>The code stays in English on purpose. <code>--lang es</code> changes the sentence for that run. <code>language</code> in the config changes it for the next ones.</p>
+<figure class="shot">
+  <img src="{{M}}lang-es.png" alt="The same stop in Spanish">
+  <figcaption>config.missing with the Spanish sentence.</figcaption>
+</figure>
+<h2>The browser does not start</h2>
+<ul>
+  <li><code>browser.not_found</code>: the <code>.exe</code> path is gone. <code>teams-scraper config</code> and pick another, or paste the path.</li>
+  <li><code>browser.profile_locked</code>: close the window that already uses this profile and run the same command.</li>
+  <li><code>browser.start_failed</code> or <code>browser.closed</code>: run it again. If you closed the window yourself, it is <code>browser.closed</code>.</li>
+  <li>Extensions, blockers, and privacy shields break Teams. Turn them off in the profile this tool opens, then reload.</li>
+</ul>
+<h2>It asks you to sign in</h2>
+<p>In the terminal, sign in in the window and press Enter. From Python, with <code>interactive=False</code>, you get <code>auth.login_required</code>. <code>teams-scraper open</code> leaves the window open so you can sign in.</p>
+<p>That profile starts without your everyday session. The first time asking for the account is expected.</p>
+<h2>There is no network</h2>
+<p><code>network.unreachable</code> means <code>teams.microsoft.com</code> on port 443 did not answer. The run does not continue from a half-loaded page.</p>
+<h2>The class is missing</h2>
+<p><code>teams.class_missing</code>: <code>name</code> has to be the name Teams shows. <code>subjects.missing</code>: <code>channels</code> and <code>all</code> need a class. Check it with <code>init</code>.</p>
+<p>Teams sometimes breaks <code>ñ</code>. If you saved the teacher in the config, that name is used when the broken form matches.</p>
+<h2>Assignments does not load</h2>
+<p><code>teams.timeout</code> or <code>teams.assignments_unavailable</code>: run the same command. Assignments are drawn inside an iframe. A page that did not load is not stored as an empty list. What is already in the database stays.</p>
+<p><code>teams.card_mismatch</code> does not save that card, because the opened title is not the one on the list. <code>teams.sharepoint_unavailable</code> does not save that file pass.</p>
+<h2>Chat does not open</h2>
+<p>It has to be on the <code>chats</code> list. Otherwise <code>chats.not_allowed</code>. If you forgot <code>--chat</code>, <code>chats.missing</code>. <code>all</code> does not read chats. Run <code>chats</code> on its own.</p>
+<h2>The exit status is 2</h2>
+<p>The command or the flag does not exist. Help suggests a close match. <code>teams-scraper --help</code> lists the names. Aliases are in <a href="commands.html">Reference</a>.</p>
+<h2>You want to report it</h2>
+<p>Include the browser, the mode, the version, and the <code>code</code>. Check that it still happens on the latest release. The repository templates ask for the same thing.</p>
+===== faq | FAQ | FAQ
+<h1>FAQ</h1>
+<h2>Does it submit the assignment for me?</h2>
+<p>No. It reads what the account can already see. There is no command to submit, post, or delete.</p>
+<h2>Does it use my everyday Chrome profile?</h2>
+<p>No. The profile is <code>perfil</code> inside the data folder, unless a bundled LibreWolf already keeps its own there. You can stay signed out in your normal profile.</p>
+<h2>Does it send anything to a project server?</h2>
+<p>No. There is no account, no analytics, and no server. It opens <code>https://teams.cloud.microsoft</code> with Selenium and writes on your disk.</p>
+<h2>Why is the error still English if I asked for Spanish?</h2>
+<p>The code is the stable part, so a program can compare it. The sentence is what changes. See <a href="errors.html">Errors</a>.</p>
+<h2>Can I keep the rows somewhere else?</h2>
+<p>Yes. Subclass <code>Almacen</code> and pass it to <code>run(store=...)</code>. <code>MemoryAlmacen</code> is the same contract without SQLite. The method you cannot skip is <code>save_task</code>.</p>
+<h2>Does all include chats?</h2>
+<p>No. <code>all</code> is activity, three assignment lists, and channels. Chats are <code>teams-scraper chats --chat all</code>, and only the ones on the allowed list.</p>
+<h2>Does a partial read wipe what was stored?</h2>
+<p>No. <code>--limit</code> and <code>--no-detail</code> do not replace the list JSON. A field that comes back empty, or shorter, leaves the stored value in place.</p>
+<h2>Where do I see the version?</h2>
+<pre><code>teams-scraper --version</code></pre>
+<p>This guide matches 1.0.0.</p>
+##### project | Project
+===== architecture | Architecture | Architecture
+<h1>Architecture</h1>
+<p class="lede">The command parses flags, <code>run</code> opens Teams, and a store object receives the rows.</p>
+<figure class="shot graphic">
+  <img src="{{M}}flow.svg" alt="How a run goes">
+  <figcaption>Three steps. Only the middle one opens Teams.</figcaption>
+</figure>
+<pre><code>teams-scraper
+    cli.py            flags, init, config, revert
+    runner.py         one mode, then the summary
+    browser.py        Chromium or Firefox, profile in the data folder
+    lists.py          Upcoming, Past due, Completed
+    detail.py         one assignment card
+    channels.py       posts, shared files, grades
+    chats.py          allowed chats only
+    activity.py       the Activity list
+    storage/          Almacen, SqliteAlmacen, MemoryAlmacen
+    locales/          en.json, es.json
+    errors.py         TeamsScraperError.code</code></pre>
+<div class="flow">
+  <span>init</span><span class="arr">→</span>
+  <span>config.json</span><span class="arr">→</span>
+  <span>CLI</span><span class="arr">→</span>
+  <span>Chromium or Firefox</span><span class="arr">→</span>
+  <span>Teams, read only</span>
+</div>
+<div class="flow">
+  <span>CLI</span><span class="arr">→</span>
+  <span>Almacen</span>
+  <span>Another program</span><span class="arr">→</span>
+  <span>TeamsScraperError.code</span>
+  <span>Another program</span><span class="arr">→</span>
+  <span>Almacen</span>
+</div>
+<h2>Two engines</h2>
+<p>Chrome, Edge, Brave, and Opera are Chromium plus the path to the executable. Firefox, LibreWolf, and Zen are Firefox plus that path. A new browser is another path, not a third engine. <code>init</code> lists the ones it finds and accepts a pasted path.</p>
+<p>The profile is <code>perfil</code> inside the data folder, unless a bundled LibreWolf already has <code>librewolf/Profiles/Default</code>.</p>
+<h2>The store</h2>
+<p><code>runner</code> calls <code>start_run</code>, the save methods, <code>list_tasks</code>, and <code>finish_run</code> on the object you passed. The method list is in <a href="store.html">Store</a>.</p>
+<h2>Language and errors</h2>
+<p>Strings live in <code>locales/en.json</code> and <code>locales/es.json</code>. A new language is another file in that folder. <code>TeamsScraperError.code</code> stays in English. The sentence follows <code>--lang</code> or <code>language</code> in the config. A caller that imports the package gets the exception, with the original cause attached.</p>
+<h2>Where Teams is awkward</h2>
+<ul>
+  <li>Assignments are drawn inside an iframe. That read enters the frame before it looks for cards.</li>
+  <li>Teams sometimes replaces <code>ñ</code> with a replacement character. If the broken form matches a teacher saved in the config, the saved name is used.</li>
+  <li>A later read that comes back empty, or shorter than what is already stored, leaves the stored value in place.</li>
+</ul>
+===== privacy | Privacy | Privacy
+<h1>Privacy</h1>
+<p class="lede">Teams Scraper has no account of its own, no server, and no analytics. It reads Teams in a browser you choose and writes the result on your machine.</p>
+<h2>What is stored</h2>
+<p>Everything stays in the data folder, <code>datos/</code> unless you picked another one.</p>
+<table>
+  <tr><th>Path</th><th>What it holds</th></tr>
+  <tr><td><code>config.json</code></td><td>Language, browser path, class names, teacher names, and the chats you allowed.</td></tr>
+  <tr><td><code>perfil/</code></td><td>The browser profile for this tool, including the Microsoft sign-in.</td></tr>
+  <tr><td><code>teams.db</code></td><td>Assignments, files, grades, posts, and notifications.</td></tr>
+  <tr><td><code>catalogo/</code>, <code>*.json</code></td><td>Copies of those lists.</td></tr>
+  <tr><td><code>descargas/</code></td><td>Files the run saved.</td></tr>
+</table>
+<p><code>config.prev.json</code> keeps the previous config so <code>revert</code> can put it back.</p>
+<h2>What it opens</h2>
+<p>It opens <code>https://teams.cloud.microsoft</code> with Selenium. It reads the assignments, channels, grades, and chats that the signed-in account can already see. Chats that are not on the allowed list are not opened.</p>
+<p>The profile in the data folder is separate from the profile you use every day.</p>
+<h2>What it does not do</h2>
+<p>It does not submit an assignment, post a message, or send the rows to the author of this project. A failed page is not treated as an empty class: the run stops with a code, and a stored value is left in place when the new read is empty.</p>
+<h2>What to keep private</h2>
+<p>Do not commit the data folder. Do not paste cookies, session files, or other people's names into an issue. The error code is enough. The templates say the same thing.</p>
+===== changelog | Changelog | Changelog
+<h1>Changelog</h1>
+<h2>1.0.0 — 26 November 2026</h2>
+<p>First public release. A Selenium reader for students on academic Teams. It does not submit anything.</p>
+<ul>
+  <li>Command <code>teams-scraper</code>: <code>init</code>, then <code>upcoming</code>, <code>past-due</code>, <code>completed</code>, <code>activity</code>, <code>channels</code>, <code>chats</code>, <code>sync</code>, <code>open</code>, and <code>all</code>.</li>
+  <li>Setup asks for the language, the browser, and the data folder, opens Teams, and lets you check the classes to read. Each checked class then asks for the teacher and a shortcut.</li>
+  <li>Browsers on the Chromium engine (Chrome, Edge, Brave, Opera) and the Firefox engine (Firefox, LibreWolf, Zen), or any executable path.</li>
+  <li>Store contract in <code>Almacen</code>. SQLite is the one that ships. Another project can pass its own object to <code>run(store=...)</code>.</li>
+  <li>Errors with a stable <code>code</code>. The sentence follows <code>--lang</code>. The code does not.</li>
+  <li>English by default, Spanish with <code>--lang es</code> or <code>language</code> in the config.</li>
+  <li>The guide lives on this site. The program repository no longer keeps a copy under <code>docs/</code>.</li>
+</ul>
+<p>The tag is <a href="https://github.com/notnomoro/teams-scraper/releases/tag/v1.0.0">v1.0.0</a>.</p>
+===== contributing | Contributing | Contributing
+<h1>Contributing</h1>
+<p class="lede">A small change with a clear note helps more than a large patch with no context.</p>
+<h2>Before you open an issue</h2>
+<ul>
+  <li>Check that the failure is still in the latest release.</li>
+  <li>Include the browser, the mode, the version, and the error <code>code</code>.</li>
+  <li>Do not paste cookies, session files, or the names of other people.</li>
+</ul>
+<p>Use the issue templates. The link is <a href="https://github.com/notnomoro/teams-scraper/issues">Issues</a>.</p>
+<h2>Code changes</h2>
+<ol>
+  <li>Fork and branch from <code>main</code>.</li>
+  <li>A new browser is a Chromium or Firefox executable path. Do not add a third engine unless Teams cannot be opened with the two that exist.</li>
+  <li>A new store implements <code>Almacen</code> and is passed to <code>run(store=...)</code>. Do not call <code>sqlite3</code> from the reading modules.</li>
+  <li>A new sentence goes in both <code>locales/en.json</code> and <code>locales/es.json</code>. The error <code>code</code> stays in English.</li>
+  <li>Do not commit <code>datos/</code>. That folder is the session, the database, and the downloads.</li>
+  <li>Do not add a way to submit assignments, post messages, or invent selectors that were not seen in Teams.</li>
+  <li>Open a pull request against <code>main</code> and say what changes for the person running the command.</li>
+  <li>Edit the guide in the Teams-Scraper-Wiki repository. It is published at <a href="https://teams-scrapper-wiki.dev">teams-scrapper-wiki.dev</a>.</li>
+</ol>
+<h2>Style</h2>
+<p>Keep the names clear. Do not add a comment that repeats the line. A comment belongs only where Teams itself is misleading. No new dependency unless Selenium cannot do the job.</p>
+<p>MIT license. You can use it, change it, and pass it on. If you copy it, keep the copyright notice. The text is in <code>LICENSE</code> in the repository.</p>
