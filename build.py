@@ -1,11 +1,13 @@
 """Build the static wiki from _src bundles. Open index.html afterwards."""
 
+from html import escape
 from html.parser import HTMLParser
 from pathlib import Path
 import json
 import re
 
 ROOT = Path(__file__).resolve().parent
+SITE = "https://notnomoro.github.io/teams-scraper-wiki"
 
 UI = {
     "es": {
@@ -96,7 +98,78 @@ def href_for(slug):
     return "index.html" if slug == "index" else f"{slug}.html"
 
 
-def page_shell(ui, page, pages, asset, media, search_src):
+def meta_description(html_body):
+    match = re.search(r'<p class="lede">(.*?)</p>', html_body, re.S)
+    if not match:
+        match = re.search(r"<p>(.*?)</p>", html_body, re.S)
+    text = plain(match.group(1) if match else html_body)
+    text = re.sub(r"\s+", " ", text).strip()
+    if len(text) <= 160:
+        return text
+    return text[:157].rsplit(" ", 1)[0] + "…"
+
+
+def page_url(lang, slug):
+    if lang == "es":
+        return SITE + ("/" if slug == "index" else f"/{slug}.html")
+    return SITE + ("/en/" if slug == "index" else f"/en/{slug}.html")
+
+
+def document_title(ui, page):
+    if page["slug"] == "index" and ui["lang"] == "es":
+        return "Teams Scraper: guía para leer el Microsoft Teams de clase"
+    if page["slug"] == "index":
+        return "Teams Scraper: guide for reading class Microsoft Teams"
+    return f'{page["title"]} · Teams Scraper'
+
+
+def seo_head(ui, page, description):
+    lang = ui["lang"]
+    other = "en" if lang == "es" else "es"
+    canon = page_url(lang, page["slug"])
+    alt = page_url(other, page["slug"])
+    title = escape(document_title(ui, page), quote=True)
+    desc = escape(description, quote=True)
+    locale = "es_MX" if lang == "es" else "en_US"
+    alt_locale = "en_US" if lang == "es" else "es_MX"
+    blocks = [
+        f'<meta name="description" content="{desc}">',
+        f'<link rel="canonical" href="{canon}">',
+        f'<link rel="alternate" hreflang="{lang}" href="{canon}">',
+        f'<link rel="alternate" hreflang="{other}" href="{alt}">',
+        f'<link rel="alternate" hreflang="x-default" href="{page_url("es", page["slug"])}">',
+        f'<meta property="og:type" content="website">',
+        f'<meta property="og:site_name" content="Teams Scraper">',
+        f'<meta property="og:locale" content="{locale}">',
+        f'<meta property="og:locale:alternate" content="{alt_locale}">',
+        f'<meta property="og:title" content="{title}">',
+        f'<meta property="og:description" content="{desc}">',
+        f'<meta property="og:url" content="{canon}">',
+        f'<meta name="twitter:card" content="summary">',
+        f'<meta name="twitter:title" content="{title}">',
+        f'<meta name="twitter:description" content="{desc}">',
+    ]
+    if page["slug"] == "index":
+        data = {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Teams Scraper",
+            "applicationCategory": "EducationalApplication",
+            "operatingSystem": "Windows, macOS, Linux",
+            "softwareRequirements": "Python 3.11, Selenium 4",
+            "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+            "description": description,
+            "url": "https://github.com/notnomoro/teams-scraper",
+            "softwareHelp": {"@type": "WebSite", "name": "Teams Scraper guide", "url": canon},
+            "inLanguage": ["es", "en"],
+            "license": "https://opensource.org/license/mit",
+        }
+        raw = json.dumps(data, ensure_ascii=False).replace("<", "\\u003c")
+        blocks.append(f'<script type="application/ld+json">{raw}</script>')
+    return "\n  ".join(blocks)
+
+
+def page_shell(ui, page, pages, asset, media, search_src, description):
     index = pages.index(page)
     prev_link = ""
     next_link = ""
@@ -119,13 +192,13 @@ def page_shell(ui, page, pages, asset, media, search_src):
 
     other = ui["other_prefix"] + href_for(page["slug"])
     body = page["html"].replace("{{M}}", media)
-    title = page["title"]
     return f"""<!DOCTYPE html>
 <html lang="{ui["lang"]}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{title} · Teams Scraper</title>
+  <title>{escape(document_title(ui, page))}</title>
+  {seo_head(ui, page, description)}
   <link rel="icon" href="{media}logo.svg">
   <link rel="stylesheet" href="{asset}css/site.css">
 </head>
@@ -189,13 +262,39 @@ def build_lang(lang):
             "href": href_for(page["slug"]),
             "text": text[:1200],
         })
-        html = page_shell(ui, page, pages, asset, media, f"{asset}js/{search_name}")
+        description = meta_description(page["html"])
+        html = page_shell(ui, page, pages, asset, media, f"{asset}js/{search_name}", description)
         (out / href_for(page["slug"])).write_text(html, encoding="utf-8")
     payload = "window.WIKI_SEARCH = " + json.dumps(search, ensure_ascii=False) + ";\n"
     (ROOT / "js" / search_name).write_text(payload, encoding="utf-8")
     print(f"{lang}: {len(pages)} pages -> {out}")
+    return pages
+
+
+def write_findability(pages_by_lang):
+    urls = []
+    for lang, pages in pages_by_lang.items():
+        for page in pages:
+            urls.append(page_url(lang, page["slug"]))
+    body = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    body.extend(f"  <url><loc>{url}</loc></url>" for url in urls)
+    body.append("</urlset>")
+    (ROOT / "sitemap.xml").write_text("\n".join(body) + "\n", encoding="utf-8")
+    (ROOT / "robots.txt").write_text(
+        "User-agent: *\nAllow: /\n\nSitemap: "
+        + SITE
+        + "/sitemap.xml\n",
+        encoding="utf-8",
+    )
+    print(f"sitemap: {len(urls)} urls")
 
 
 if __name__ == "__main__":
-    build_lang("es")
-    build_lang("en")
+    built = {
+        "es": build_lang("es"),
+        "en": build_lang("en"),
+    }
+    write_findability(built)

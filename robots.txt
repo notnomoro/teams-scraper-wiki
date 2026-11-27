@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://notnomoro.github.io/teams-scraper-wiki/sitemap.xml
